@@ -1,4 +1,4 @@
-import Services from "./../infraestructure/entry-points/api-rest/services/services.js"
+import Services from "../infrastructure/entry-points/api-rest/services/Services.js"
 import express from "express";
 import log from "pino";
 
