@@ -1,0 +1,112 @@
+{
+  "uuid": "35db409b-808a-493e-8f83-802533c12896",
+  "lastMigration": 29,
+  "name": "Mockoon ms clean architecture",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3001,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "8093e3e8-caad-4e82-9b5f-6f74cb0e7059",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "geolocations/",
+      "responses": [
+        {
+          "uuid": "ffbb1bf4-4c60-433d-b211-8776f0650f8e",
+          "body": "{\n  \"id\": \"7a76ce7c-cc20-4fe3-811b-d2b632c156b9\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "84cee372-845a-47b6-a9c9-a5370be3140e",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "geolocations/",
+      "responses": [
+        {
+          "uuid": "96cfcae1-0386-436c-9a6c-54c5b6d239b8",
+          "body": "[\r\n    {\r\n        \"id\": \"7a76ce7c-cc20-4fe3-811b-d2b632c156b4\",\r\n        \"latitude\": \"123\",\r\n        \"longitude\": \"456\",\r\n        \"typeGeolocation\": \"GPS\",\r\n        \"name\": \"My ubication\",\r\n        \"description\": \"Ubication of Carlos Martinez 4\"\r\n    },\r\n    {\r\n        \"id\": \"7a76ce7c-cc20-4fe3-811b-d2b632c156b3\",\r\n        \"latitude\": \"123\",\r\n        \"longitude\": \"456\",\r\n        \"typeGeolocation\": \"GPS\",\r\n        \"name\": \"My ubication\",\r\n        \"description\": \"Ubication of Carlos Martinez 3\"\r\n    },\r\n    {\r\n        \"id\": \"7a76ce7c-cc20-4fe3-811b-d2b632c156b2\",\r\n        \"latitude\": \"123\",\r\n        \"longitude\": \"456\",\r\n        \"typeGeolocation\": \"GPS\",\r\n        \"name\": \"My ubication\",\r\n        \"description\": \"Ubication of Carlos Martinez 2\"\r\n    },\r\n    {\r\n        \"id\": \"7a76ce7c-cc20-4fe3-811b-d2b632c156b1\",\r\n        \"latitude\": \"123\",\r\n        \"longitude\": \"456\",\r\n        \"typeGeolocation\": \"GPS\",\r\n        \"name\": \"My ubication\",\r\n        \"description\": \"Ubication of Carlos Martinez 1\"\r\n    }\r\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "8093e3e8-caad-4e82-9b5f-6f74cb0e7059"
+    },
+    {
+      "type": "route",
+      "uuid": "84cee372-845a-47b6-a9c9-a5370be3140e"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": []
+}
