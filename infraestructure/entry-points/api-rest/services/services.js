@@ -1,9 +1,7 @@
 import axios from "axios";
-import GeolocationController from "./geolocation/GeolocationController.js";
 import GeolocationServices from "./geolocation/GeolocationServices.js";
 import GeolocationUsecase from "../../../../domain/usecase/geolocation/GeolocationUsecase.js";
 import GeolocationPort from "../../../driven-adapters/axios-client/geolocation/GeolocationPort.js";
-import ExceptionHandler from "../handlers/ExceptionHandler.js";
 
 export default class Services {
 
@@ -13,30 +11,18 @@ export default class Services {
     }
 
     defineAllRoutes(){
-        const exceptionHandler = new ExceptionHandler();
-        const geolocationPort = new GeolocationPort(axios);
-        const geolocationUsecase = new GeolocationUsecase(geolocationPort);
-        const geolocationController = new GeolocationController(exceptionHandler, geolocationUsecase);
-        const geolocationServices = new GeolocationServices(this.express, geolocationController);
-        this.app.use("/api/v1/geolocations", geolocationServices.addEndpoints());
-    }
-
-    defineBeanGeolocationPort(){
-        console.log("Se creo el bean port");
-        return new GeolocationPort(axios);
+        this.app.use("/api/v1/geolocations", this.geolocationEndpoints());
     }
 
     defineBeanGeolocationUsecase(){
-        console.log("Se creo el bean usecase");
-        return new GeolocationUsecase(this.defineBeanGeolocationPort());
+        const geolocationPort = new GeolocationPort(axios);
+        return new GeolocationUsecase(geolocationPort);
     }
 
-    defineBeanGeolocationController(){
-        console.log("Se creo el bean controller");
-        const exceptionHandler = new ExceptionHandler();
-        const geolocationPort = new GeolocationPort(axios);
-        const geolocationUsecase = new GeolocationUsecase(geolocationPort);
-        return new GeolocationController(exceptionHandler, geolocationUsecase);
+
+    geolocationEndpoints(){
+        const geolocationServices = new GeolocationServices(this.express, this.defineBeanGeolocationUsecase());
+        return geolocationServices.addEndpoints();
     }
 
 }
