@@ -11,4 +11,17 @@ function responseCreated(body, response) {
         .status(HttpStatusCode.CREATED)
         .json(body);
 }
-export { responseOk, responseCreated }; 
+
+function responseNotFound(body, response) {
+    return response
+        .status(HttpStatusCode.NOT_FOUND)
+        .json(body);
+}
+
+function responseAccepted(body, response) {
+    return response
+        .status(HttpStatusCode.ACCEPTED)
+        .json(body);
+}
+
+export { responseOk, responseCreated, responseNotFound, responseAccepted }; 

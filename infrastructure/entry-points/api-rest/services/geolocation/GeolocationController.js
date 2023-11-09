@@ -9,8 +9,9 @@ import {responseOk, responseCreated} from "../../handlers/ResponseHandler.js"
 export default class GeolocationController {
 
     constructor(exceptionHandler, geolocationUsecase) {
-        this.exceptionHandler = new ExceptionHandler();
+        this.exceptionHandler = exceptionHandler;
         this.geolocationUsecase = geolocationUsecase;
+        this.show();
     }
 
     async create(request, response) {
@@ -25,6 +26,11 @@ export default class GeolocationController {
             const exceptionHandler = new ExceptionHandler();
             return exceptionHandler.buildErrorResponse(exception, response);
         }
+    }
+
+    async show(){
+        const list = await this.geolocationUsecase.list()
+        console.log(list);
     }
 
     async list(request, response) {

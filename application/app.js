@@ -18,3 +18,5 @@ app.listen(8080, () => {
         "App running at http://localhost:8080"
     );
 });
+
+export default app;
