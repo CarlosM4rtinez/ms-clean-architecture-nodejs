@@ -7,14 +7,14 @@ export default class GeolocationServices{
         this.geolocationController = this.buildGeolocationController(geolocationUsecase);
     }
 
+    buildGeolocationController(geolocationUsecase){
+        return new GeolocationController(geolocationUsecase);
+    }
+
     addEndpoints(){
         this.router.route("/").post(this.geolocationController.create);
         this.router.route("/").get(this.geolocationController.list);
         return this.router;
-    }
-
-    buildGeolocationController(geolocationUsecase){
-        return new GeolocationController(geolocationUsecase);
     }
 
 }

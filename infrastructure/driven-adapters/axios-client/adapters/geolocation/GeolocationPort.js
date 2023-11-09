@@ -21,7 +21,7 @@ export default class GeolocationPort {
         retriesConfiguration(axiosClient);
         return await axiosClient
             .get(process.env.ENDPOINT_GEOLOCATION_API, setRetries(3))
-            .then(response => { return response.data; })
+            .then(response => response.data)
             .catch(exception => { throw new TechnicalException("MST002", exception.message); });
     }
 

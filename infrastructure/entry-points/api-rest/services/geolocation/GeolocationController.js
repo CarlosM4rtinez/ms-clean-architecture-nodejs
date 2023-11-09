@@ -8,7 +8,6 @@ export default class GeolocationController {
 
     constructor(geolocationUsecase) {
         this.geolocationUsecase = geolocationUsecase;
-        this.show();
     }
 
     async create(request, response, next) {
@@ -17,22 +16,20 @@ export default class GeolocationController {
         const geolocationUsecase = new GeolocationUsecase(geolocationPort);
         const geolocation = new Geolocation(latitude, longitude, typeGeolocation, name, description);
         geolocationUsecase.create(geolocation)
-            .then(newGeolocation => {
-                return responseCreated(newGeolocation, response)
-            })
+            .then(newGeolocation => responseCreated(newGeolocation, response))
             .catch(exception => next(exception));
     }
 
     async show() {
         const list = await this.geolocationUsecase.list()
-        //console.log(list);
+        console.log(list);
     }
 
     async list(request, response, next) {
         const geolocationPort2 = new GeolocationPort(axios);
         const geolocationUsecase2 = new GeolocationUsecase(geolocationPort2);
         geolocationUsecase2.list()
-            .then(geolocationList => {return responseOk(geolocationList, response);})
+            .then(geolocationList => responseOk(geolocationList, response))
             .catch(exception => next(exception));
     }
 

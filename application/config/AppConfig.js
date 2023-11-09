@@ -21,7 +21,7 @@ function configureHealthService(app) {
 function startServer(app) {
     const port = process.env.SERVER_PORT;
     const server = app.listen(port, () => {
-        console.log("App running at http://localhost:"+port);
+        console.log(`App running at http://localhost:${port}`);
     });
     server.keepAliveTimeout = 30000;
     server.headersTimeout = 35000;
