@@ -11,7 +11,7 @@ function retriesConfiguration(axiosClient) {
     });
 }
 
-function customRetries(numberOfRetries) {
+function setRetries(numberOfRetries) {
     return {
         'axios-retry': {
             retries: numberOfRetries
@@ -19,4 +19,4 @@ function customRetries(numberOfRetries) {
     }
 }
 
-export {customRetries, retriesConfiguration}
+export {setRetries, retriesConfiguration}

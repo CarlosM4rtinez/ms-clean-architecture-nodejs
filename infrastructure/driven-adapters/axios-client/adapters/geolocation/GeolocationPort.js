@@ -2,7 +2,7 @@ import TechnicalException from "../../../../../domain/model/exception/TechnicalE
 import AddGeolocationRequestDTO from "./dto/AddGeolocationRequestDTO.js";
 import "dotenv/config";
 import axiosClient from "axios";
-import {retriesConfiguration, customRetries} from "../../config/RetriesConfig.js";
+import {retriesConfiguration, setRetries} from "../../config/RetriesConfig.js";
 
 export default class GeolocationPort {
 
@@ -20,7 +20,7 @@ export default class GeolocationPort {
     async list() {
         retriesConfiguration(axiosClient);
         return await axiosClient
-            .get(process.env.ENDPOINT_GEOLOCATION_API, customRetries(3))
+            .get(process.env.ENDPOINT_GEOLOCATION_API, setRetries(3))
             .then(response => { return response.data; })
             .catch(exception => { throw new TechnicalException("MST002", exception.message); });
     }
