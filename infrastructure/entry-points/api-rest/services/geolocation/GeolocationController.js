@@ -1,7 +1,6 @@
-import AddGeolocationRequestDTO from "./dto/AddGeolocationRequestDTO.js";
 import Geolocation from "../../../../../domain/model/geolocation/Geolocation.js";
 import GeolocationUsecase from "../../../../../domain/usecase/geolocation/GeolocationUsecase.js";
-import GeolocationPort from "../../../../driven-adapters/axios-client/geolocation/GeolocationPort.js";
+import GeolocationPort from "../../../../driven-adapters/axios-client/adapters/geolocation/GeolocationPort.js";
 import axios from "axios";
 import { responseOk, responseCreated } from "../../handlers/ResponseHandler.js"
 
@@ -33,9 +32,7 @@ export default class GeolocationController {
         const geolocationPort2 = new GeolocationPort(axios);
         const geolocationUsecase2 = new GeolocationUsecase(geolocationPort2);
         geolocationUsecase2.list()
-            .then(geolocationList => {
-                return responseOk(geolocationList, response);
-            })
+            .then(geolocationList => {return responseOk(geolocationList, response);})
             .catch(exception => next(exception));
     }
 

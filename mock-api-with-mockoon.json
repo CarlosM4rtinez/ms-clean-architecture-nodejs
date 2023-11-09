@@ -19,7 +19,7 @@
           "uuid": "ffbb1bf4-4c60-433d-b211-8776f0650f8e",
           "body": "{\n  \"id\": \"7a76ce7c-cc20-4fe3-811b-d2b632c156b9\"\n}",
           "latency": 0,
-          "statusCode": 200,
+          "statusCode": 201,
           "label": "",
           "headers": [],
           "bodyType": "INLINE",

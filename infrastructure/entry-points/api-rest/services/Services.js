@@ -1,7 +1,6 @@
-import axios from "axios";
 import GeolocationServices from "./geolocation/GeolocationServices.js";
 import GeolocationUsecase from "../../../../domain/usecase/geolocation/GeolocationUsecase.js";
-import GeolocationPort from "../../../driven-adapters/axios-client/geolocation/GeolocationPort.js";
+import GeolocationPort from "../../../driven-adapters/axios-client/adapters/geolocation/GeolocationPort.js";
 
 export default class Services {
 
@@ -15,7 +14,7 @@ export default class Services {
     }
 
     defineBeanGeolocationUsecase(){
-        const geolocationPort = new GeolocationPort(axios);
+        const geolocationPort = new GeolocationPort();
         return new GeolocationUsecase(geolocationPort);
     }
 
