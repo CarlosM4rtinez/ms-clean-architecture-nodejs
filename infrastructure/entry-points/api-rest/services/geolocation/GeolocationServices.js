@@ -1,4 +1,3 @@
-import ExceptionHandler from "../../handlers/ExceptionHandler.js";
 import GeolocationController from "./GeolocationController.js";
 
 export default class GeolocationServices{
@@ -15,8 +14,7 @@ export default class GeolocationServices{
     }
 
     buildGeolocationController(geolocationUsecase){
-        const exceptionHandler = new ExceptionHandler();
-        return new GeolocationController(exceptionHandler, geolocationUsecase);
+        return new GeolocationController(geolocationUsecase);
     }
 
 }
