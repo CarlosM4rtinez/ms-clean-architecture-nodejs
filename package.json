@@ -5,7 +5,8 @@
   "main": "./application/app.js",
   "type": "module",
   "scripts": {
-    "test": "mocha 'tests/**/*.js' --reporter spec",
+    "test": "mocha 'tests/**/*.js'",
+    "test-coverage": "nyc --report-dir=.coverage/ --reporter=html --reporter=text --check-coverage --lines 90 --per-file mocha 'tests/**/*.js' --exit --timeout 120000",
     "start": "node ./application/app.js",
     "dev": "nodemon ./application/app.js"
   },
@@ -13,7 +14,9 @@
   "author": "Carlos Martinez https://github.com/carlosm4rtinez",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "nyc": "^15.1.0",
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "ajv": "^8.12.0",

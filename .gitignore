@@ -123,3 +123,5 @@ node_modules
 makefile
 package-lock.json
 .vscode/*
+coverage
+.coverage

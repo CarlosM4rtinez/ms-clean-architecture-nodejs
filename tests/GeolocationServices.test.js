@@ -5,7 +5,7 @@ import app from "../application/app.js";
 chai.use(chaiHttp);
 
 describe('Geolocation Services Tests', () => {
-    it("Should return status 204", (done) => {
+    it("Should return http status 200", (done) => {
         chai.request(app)
             .get("/api/v1/geolocations")
             .end((error, response) => {

@@ -30,7 +30,7 @@ export default class GeolocationController {
 
     async show(){
         const list = await this.geolocationUsecase.list()
-        console.log(list);
+        //console.log(list);
     }
 
     async list(request, response) {
