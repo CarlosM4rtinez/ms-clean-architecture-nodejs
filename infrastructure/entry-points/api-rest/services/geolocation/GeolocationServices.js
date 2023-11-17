@@ -11,7 +11,7 @@ export default class GeolocationServices{
         return new GeolocationController(geolocationUsecase);
     }
 
-    addEndpoints(){
+    addServices(){
         this.router.route("/").post(this.geolocationController.create);
         this.router.route("/").get(this.geolocationController.list);
         return this.router;

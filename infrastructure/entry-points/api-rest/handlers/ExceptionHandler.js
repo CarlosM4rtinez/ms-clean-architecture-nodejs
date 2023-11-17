@@ -2,6 +2,7 @@ import HttpStatusCode from "http-status-codes"
 import TechnicalException from "../../../../domain/model/exception/TechnicalException.js";
 import BusinessException from "../../../../domain/model/exception/BusinessException.js";
 import ErrorDTO from "../commons/dto/ErrorDTO.js";
+import {TechnicalMessage} from "../../../../domain/model/exception/message/TechnicalMessage.js"
 
 export default function exceptionHandler(exception, request, response, next) {
     switch (exception.constructor) {
@@ -16,11 +17,11 @@ export default function exceptionHandler(exception, request, response, next) {
 }
 
 function buildErrorDTO(exception) {
-    return new ErrorDTO(exception.code, exception.message);
+    return new ErrorDTO(exception.getCode(), exception.getDomainMessage(), exception.message);
 }
 
 function buildDefaultErrorDTO(exception) {
-    return new ErrorDTO("MST000", exception.message)
+    return new ErrorDTO(TechnicalMessage.MST000, exception.message)
 }
 
 function buildBusinessResponse(error, response) {

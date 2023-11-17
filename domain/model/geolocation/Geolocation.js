@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import BusinessException from "../exception/BusinessException.js";
+import { BusinessMessage } from "../exception/message/BusinessMessage.js";
 
 export default class Geolocation {
 
@@ -21,7 +22,7 @@ export default class Geolocation {
 
     validateLatitude(){
         if(this.latitude < 0){
-            throw new BusinessException("MSB001", "Invalid latitude.");
+            throw new BusinessException(BusinessMessage.MSB000);
         }
     }
 

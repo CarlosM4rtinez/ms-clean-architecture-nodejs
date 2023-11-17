@@ -1,16 +1,17 @@
-export default class Exception extends Error{
+export default class Exception extends Error {
 
-    constructor (code, message){
-        super(message);
+    constructor (exception, code, domainMessage){
+        super(exception);
         this.code = code;
+        this.domainMessage = domainMessage;
     }
 
     getCode(){
-        return this.getCode;
+        return this.code;
     }
 
-    getMessage(){
-        return this.getMessage;
+    getDomainMessage(){
+        return this.domainMessage;
     }
 
 }
