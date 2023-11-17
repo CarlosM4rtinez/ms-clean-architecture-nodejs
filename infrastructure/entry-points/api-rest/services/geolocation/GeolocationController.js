@@ -15,7 +15,7 @@ export default class GeolocationController {
         const geolocationPort = new GeolocationPort(axios);
         const geolocationUsecase = new GeolocationUsecase(geolocationPort);
         const geolocation = new Geolocation(latitude, longitude, typeGeolocation, name, description);
-        geolocationUsecase.create(geolocation)
+        return geolocationUsecase.create(geolocation)
             .then(newGeolocation => responseCreated(newGeolocation, response))
             .catch(exception => next(exception));
     }
@@ -28,7 +28,7 @@ export default class GeolocationController {
     async list(request, response, next) {
         const geolocationPort2 = new GeolocationPort(axios);
         const geolocationUsecase2 = new GeolocationUsecase(geolocationPort2);
-        geolocationUsecase2.list()
+        return geolocationUsecase2.list()
             .then(geolocationList => responseOk(geolocationList, response))
             .catch(exception => next(exception));
     }

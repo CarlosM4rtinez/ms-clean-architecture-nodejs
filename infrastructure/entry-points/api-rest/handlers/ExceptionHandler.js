@@ -5,6 +5,7 @@ import ErrorDTO from "../commons/dto/ErrorDTO.js";
 import {TechnicalMessage} from "../../../../domain/model/exception/message/TechnicalMessage.js"
 
 export default function exceptionHandler(exception, request, response, next) {
+    console.log(exception);
     switch (exception.constructor) {
         case TechnicalException:
             return buildTechnicalResponse(buildErrorDTO(exception), response);
@@ -21,7 +22,7 @@ function buildErrorDTO(exception) {
 }
 
 function buildDefaultErrorDTO(exception) {
-    return new ErrorDTO(TechnicalMessage.MST000, exception.message)
+    return new ErrorDTO(TechnicalMessage.MST000.code, TechnicalMessage.MST000.message, exception.message)
 }
 
 function buildBusinessResponse(error, response) {

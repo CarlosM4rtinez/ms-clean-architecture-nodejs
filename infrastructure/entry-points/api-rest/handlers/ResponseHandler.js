@@ -24,4 +24,8 @@ function responseAccepted(body, response) {
         .json(body);
 }
 
-export { responseOk, responseCreated, responseNotFound, responseAccepted }; 
+function responseNoContent(response) {
+    return response.sendStatus(HttpStatusCode.NO_CONTENT);
+}
+
+export { responseOk, responseCreated, responseNotFound, responseAccepted, responseNoContent }; 
