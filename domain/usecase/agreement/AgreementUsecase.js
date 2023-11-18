@@ -15,7 +15,7 @@ export default class AgreementUsecase {
             });
     }
 
-    list() {
+    async list() {
         return this.agreementPort.list()
             .then(agreement => {
                 if (!agreement) throw new BusinessException(BusinessMessage.MSB001);

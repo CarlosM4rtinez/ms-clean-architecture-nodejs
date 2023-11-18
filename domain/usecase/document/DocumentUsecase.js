@@ -15,7 +15,7 @@ export default class DocumentUsecase {
             });
     }
 
-    list() {
+    async list() {
         return this.documentPort.list()
             .then(documents => {
                 if (!documents) throw new BusinessException(BusinessMessage.MSB001);
