@@ -24,6 +24,7 @@ export default class DocumentUsecase {
     }
 
     async findById(id) {
+        if (isNaN(id)) throw new BusinessException(BusinessMessage.MSB005);
         return this.documentPort.findById(id)
             .then(document => {
                 if (!document) throw new BusinessException(BusinessMessage.MSB001);
@@ -32,6 +33,7 @@ export default class DocumentUsecase {
     }
 
     async findByName(name) {
+        if (!name) throw new BusinessException(BusinessMessage.MSB005);
         return this.documentPort.findByName(name)
             .then(document => {
                 if (!document) throw new BusinessException(BusinessMessage.MSB001);
@@ -40,6 +42,7 @@ export default class DocumentUsecase {
     }
 
     async findByTechnicalName(documentTechnicalName) {
+        if (!documentTechnicalName) throw new BusinessException(BusinessMessage.MSB005);
         return this.documentPort.findByTechnicalName(documentTechnicalName)
             .then(document => {
                 if (!document) throw new BusinessException(BusinessMessage.MSB001);
@@ -73,7 +76,7 @@ export default class DocumentUsecase {
     }
 
     async deleteByTechnicalName(documentTechnicalName) {
-        if (!isNaN(documentTechnicalName)) throw new BusinessException(BusinessMessage.MSB005);
+        if (!documentTechnicalName) throw new BusinessException(BusinessMessage.MSB005);
         return this.documentPort.findByTechnicalName(documentTechnicalName)
             .then(document => {
                 if (!document) throw new BusinessException(BusinessMessage.MSB004);

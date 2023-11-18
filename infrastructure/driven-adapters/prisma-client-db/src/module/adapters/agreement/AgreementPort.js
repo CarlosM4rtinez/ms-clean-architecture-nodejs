@@ -13,7 +13,7 @@ export default class AgreementPort {
     async create(agreement) {
         const createAgreementDTO = new CreateAgreementDTO(agreement);
         return await this.dbConnection.agreement.create({ data: createAgreementDTO })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST004, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST004, exception); });
     }
 
     async findById(agreementId) {
@@ -23,7 +23,7 @@ export default class AgreementPort {
                     id: agreementId,
                 },
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception); });
     }
 
     async findByName(agreementName) {
@@ -35,7 +35,7 @@ export default class AgreementPort {
                     }
                 },
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception); });
     }
 
     async findByNumber(agreementNumber) {
@@ -45,13 +45,13 @@ export default class AgreementPort {
                     numero: agreementNumber,
                 },
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception); });
     }
 
     async list() {
         return await this.dbConnection.agreement
             .findMany()
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception); });
     }
 
     async findByProperties(properties) {
@@ -60,7 +60,7 @@ export default class AgreementPort {
             .findMany({
                 where: propertiesObject,
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception); });
     }
 
     async updateById(agreement) {
@@ -72,7 +72,7 @@ export default class AgreementPort {
                 },
                 data: updateAgreementDTO,
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST003, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST003, exception); });
     }
 
     async deleteById(agreementId) {
@@ -82,7 +82,7 @@ export default class AgreementPort {
                     id: agreementId,
                 }
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST005, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST005, exception); });
     }
 
     async deleteByNumber(agreementNumber) {
@@ -92,7 +92,7 @@ export default class AgreementPort {
                     numero: agreementNumber,
                 }
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST005, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST005, exception); });
     }
 
 }

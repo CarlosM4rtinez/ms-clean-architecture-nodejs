@@ -1,6 +1,10 @@
+import BusinessException from "../../model/exception/BusinessException.js"
+import { BusinessMessage } from "../../model/exception/message/BusinessMessage.js"
+
 export default class Document {
 
-    constructor() {
+    constructor(data) {
+        this.id = data.id;
         this.name = data.name;
         this.technicalName = data.technicalName;
         this.classification = data.classification;
@@ -18,6 +22,10 @@ export default class Document {
 
     setId(id){
         this.id = id;
+    }
+
+    checkName(){
+        if (!this.name) throw new BusinessException(BusinessMessage.MSB005);
     }
 
 }

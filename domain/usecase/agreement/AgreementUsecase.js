@@ -24,6 +24,7 @@ export default class AgreementUsecase {
     }
 
     async findById(agreementId) {
+        if (isNaN(agreementId)) throw new BusinessException(BusinessMessage.MSB005);
         return this.agreementPort.findById(agreementId)
             .then(agreement => {
                 if (!agreement) throw new BusinessException(BusinessMessage.MSB001);
@@ -32,6 +33,7 @@ export default class AgreementUsecase {
     }
 
     async findByName(agreementName) {
+        if (!agreementName) throw new BusinessException(BusinessMessage.MSB005);
         return this.agreementPort.findByName(agreementName)
             .then(agreement => {
                 if (!agreement) throw new BusinessException(BusinessMessage.MSB001);
@@ -40,6 +42,7 @@ export default class AgreementUsecase {
     }
 
     async findByNumber(agreementNumber) {
+        if (!agreementNumber) throw new BusinessException(BusinessMessage.MSB005);
         return this.agreementPort.findByNumber(agreementNumber)
             .then(agreement => {
                 if (!agreement) throw new BusinessException(BusinessMessage.MSB001);

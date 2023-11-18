@@ -15,7 +15,7 @@ export default class GeolocationPort {
                 geolocation.setId(response.data.id);
                 return geolocation;
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST002, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST002, exception); });
     }
 
     async list() {
@@ -23,7 +23,7 @@ export default class GeolocationPort {
         return await axiosClient
             .get(process.env.ENDPOINT_GEOLOCATION_API, setRetries(process.env.AXIOS_CLIENT_RETRIES))
             .then(response => response.data)
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST002, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST002, exception); });
     }
 
 }

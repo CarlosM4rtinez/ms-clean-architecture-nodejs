@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client"
 import { TechnicalMessage } from "../../../../../../../domain/model/exception/message/TechnicalMessage.js";
 import UpdateDocumentDTO from "./dto/UpdateDocumentDTO.js";
 import CreateDocumentDTO from "./dto/CreateDocumentDTO.js";
+import { dataToModel, listToModel } from "./mapper/DocumentMapper.js";
 
 export default class DocumentPort {
 
@@ -13,7 +14,8 @@ export default class DocumentPort {
     async create(document) {
         const createDocumentDTO = new CreateDocumentDTO(document);
         return await this.dbConnection.document.create({ data: createDocumentDTO })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST004, exception.message); });
+            .then(result => { return dataToModel(result) })
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST004, exception) });
     }
 
     async findById(id) {
@@ -23,7 +25,8 @@ export default class DocumentPort {
                     id: id,
                 },
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception.message); });
+            .then(result => { return (result) ? dataToModel(result) : result })
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception) });
     }
 
     async findByName(documentName) {
@@ -35,7 +38,8 @@ export default class DocumentPort {
                     }
                 },
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception.message); });
+            .then(documents => { return listToModel(documents) })
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception) });
     }
 
     async findByTechnicalName(documentTechnicalName) {
@@ -45,13 +49,15 @@ export default class DocumentPort {
                     technicalName: documentTechnicalName,
                 },
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception.message); });
+            .then(result => { return (result) ? dataToModel(result) : result })
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception) });
     }
 
     async list() {
         return await this.dbConnection.document
             .findMany()
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception.message); });
+            .then(documents => { return listToModel(documents) })
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception) });
     }
 
     async findByProperties(properties) {
@@ -60,7 +66,8 @@ export default class DocumentPort {
             .findMany({
                 where: propertiesObject,
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception.message); });
+            .then(result => { return listToModel(result) })
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception) });
     }
 
     async updateById(document) {
@@ -72,7 +79,8 @@ export default class DocumentPort {
                 },
                 data: updateDocumentDTO,
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST003, exception.message); });
+            .then(result => { return dataToModel(result) })
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST003, exception) });
     }
 
     async deleteById(documentId) {
@@ -82,7 +90,7 @@ export default class DocumentPort {
                     id: documentId,
                 }
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST005, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST005, exception) });
     }
 
     async deleteByTechnicalName(documentTechnicalName) {
@@ -92,7 +100,7 @@ export default class DocumentPort {
                     technicalName: documentTechnicalName,
                 }
             })
-            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST005, exception.message); });
+            .catch(exception => { throw new TechnicalException(TechnicalMessage.MST005, exception) });
     }
 
 }
