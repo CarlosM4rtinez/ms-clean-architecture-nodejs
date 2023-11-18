@@ -20,35 +20,21 @@ export default class DocumentPort {
 
     async findById(id) {
         return await this.dbConnection.document
-            .findUnique({
-                where: {
-                    id: id,
-                },
-            })
+            .findUnique({ where: { id: id } })
             .then(result => { return (result) ? dataToModel(result) : result })
             .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception) });
     }
 
     async findByName(documentName) {
         return await this.dbConnection.document
-            .findMany({
-                where: {
-                    name: {
-                        contains: documentName
-                    }
-                },
-            })
+            .findMany({ where: { name: { contains: documentName } } })
             .then(documents => { return listToModel(documents) })
             .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception) });
     }
 
     async findByTechnicalName(documentTechnicalName) {
         return await this.dbConnection.document
-            .findUnique({
-                where: {
-                    technicalName: documentTechnicalName,
-                },
-            })
+            .findUnique({ where: { technicalName: documentTechnicalName } })
             .then(result => { return (result) ? dataToModel(result) : result })
             .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception) });
     }
@@ -63,9 +49,7 @@ export default class DocumentPort {
     async findByProperties(properties) {
         const propertiesObject = JSON.parse(properties);
         return await this.dbConnection.document
-            .findMany({
-                where: propertiesObject,
-            })
+            .findMany({ where: propertiesObject })
             .then(result => { return listToModel(result) })
             .catch(exception => { throw new TechnicalException(TechnicalMessage.MST001, exception) });
     }
@@ -73,33 +57,20 @@ export default class DocumentPort {
     async updateById(document) {
         const updateDocumentDTO = new UpdateDocumentDTO(document);
         return await this.dbConnection.document
-            .update({
-                where: {
-                    id: document.id,
-                },
-                data: updateDocumentDTO,
-            })
+            .update({ where: { id: document.id }, data: updateDocumentDTO })
             .then(result => { return dataToModel(result) })
             .catch(exception => { throw new TechnicalException(TechnicalMessage.MST003, exception) });
     }
 
     async deleteById(documentId) {
         return await this.dbConnection.document
-            .delete({
-                where: {
-                    id: documentId,
-                }
-            })
+            .delete({ where: { id: documentId } })
             .catch(exception => { throw new TechnicalException(TechnicalMessage.MST005, exception) });
     }
 
     async deleteByTechnicalName(documentTechnicalName) {
         return await this.dbConnection.document
-            .delete({
-                where: {
-                    technicalName: documentTechnicalName,
-                }
-            })
+            .delete({ where: { technicalName: documentTechnicalName } })
             .catch(exception => { throw new TechnicalException(TechnicalMessage.MST005, exception) });
     }
 
