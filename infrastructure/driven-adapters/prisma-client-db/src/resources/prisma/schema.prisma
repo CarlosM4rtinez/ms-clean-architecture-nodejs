@@ -1,3 +1,6 @@
+// Remember to first generate the prisma schema
+// npx prisma generate --schema=./infrastructure/driven-adapters/prisma-client-db/src/resources/prisma/schema.prisma
+
 generator client {
     provider = "prisma-client-js"
 }
@@ -17,15 +20,35 @@ model Agreement {
     codigo_base_calculo String   @db.VarChar(255)
     tipo_amortizacion   String   @db.VarChar(255)
     calculator          String   @db.VarChar(255)
-    provider_capacity   String?   @db.VarChar(255)
-    codigo_csb          String?   @db.VarChar(255)
-    nombre_csb          String?   @db.VarChar(255)
+    provider_capacity   String?  @db.VarChar(255)
+    codigo_csb          String?  @db.VarChar(255)
+    nombre_csb          String?  @db.VarChar(255)
     created_at          DateTime @default(now()) @db.Timestamptz(6)
     updated_at          DateTime @updatedAt @db.Timestamptz(6)
     empresa             String   @db.VarChar(255)
-    convenio_id         String?   @db.VarChar(255)
+    convenio_id         String?  @db.VarChar(255)
     firma_promotor      Boolean  @default(true) @db.Boolean
     videoTask           Boolean  @default(false) @db.Boolean
     signatureColor      String   @db.VarChar(20)
+
     @@map("convenios")
+}
+
+model Document {
+    id                BigInt  @id @default(autoincrement())
+    name              String  @unique @db.VarChar(255)
+    technicalName     String  @unique @db.VarChar(255)
+    clasification     String  @db.VarChar(255)
+    required          Boolean @default(true) @db.Boolean
+    visible           Boolean @default(false) @db.Boolean
+    isSignature       Boolean @default(true) @db.Boolean
+    isProtocolExp     Boolean @default(false) @db.Boolean
+    isSpecialDocument Boolean @default(false) @db.Boolean
+    isAnexoDocument   Boolean @default(false) @db.Boolean
+    isLCOM            Boolean @default(false) @db.Boolean
+    isPassport        Boolean @default(false) @db.Boolean
+    created_at          DateTime @default(now()) @db.Timestamptz(6)
+    updated_at          DateTime @updatedAt @db.Timestamptz(6)
+
+    @@map("documentos")
 }
