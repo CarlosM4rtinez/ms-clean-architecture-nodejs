@@ -1,5 +1,5 @@
-import BusinessException from "../../model/exception/BusinessException.js"
-import { BusinessMessage } from "../../model/exception/message/BusinessMessage.js"
+import { BusinessMessage } from "../../model/common/exception/message/BusinessMessage.js";
+import { checkAndThrowBusinessException } from "../../model/common/exception/util/ExceptionUtil.js";
 
 export default class AgreementUsecase {
 
@@ -10,42 +10,42 @@ export default class AgreementUsecase {
     async create(newAgreement) {
         return this.agreementPort.findByNumber(newAgreement.number)
             .then(agreement => {
-                if (agreement) throw new BusinessException(BusinessMessage.MSB003);
+                checkAndThrowBusinessException(agreement, BusinessMessage.MSB003);
                 return this.agreementPort.create(newAgreement);
             });
     }
 
     async list() {
         return this.agreementPort.list()
-            .then(agreement => {
-                if (!agreement) throw new BusinessException(BusinessMessage.MSB001);
-                return agreement;
+            .then(agreements => {
+                checkAndThrowBusinessException(!agreements, BusinessMessage.MSB001);
+                return agreements;
             });
     }
 
     async findById(agreementId) {
-        if (isNaN(agreementId)) throw new BusinessException(BusinessMessage.MSB005);
+        checkAndThrowBusinessException(isNaN(agreementId), BusinessMessage.MSB005);
         return this.agreementPort.findById(agreementId)
             .then(agreement => {
-                if (!agreement) throw new BusinessException(BusinessMessage.MSB001);
+                checkAndThrowBusinessException(!agreement, BusinessMessage.MSB001);
                 return agreement;
             });
     }
 
     async findByName(agreementName) {
-        if (!agreementName) throw new BusinessException(BusinessMessage.MSB005);
+        checkAndThrowBusinessException(!agreementName, BusinessMessage.MSB005);
         return this.agreementPort.findByName(agreementName)
             .then(agreement => {
-                if (!agreement) throw new BusinessException(BusinessMessage.MSB001);
+                checkAndThrowBusinessException(!agreement, BusinessMessage.MSB001);
                 return agreement;
             });
     }
 
     async findByNumber(agreementNumber) {
-        if (!agreementNumber) throw new BusinessException(BusinessMessage.MSB005);
+        checkAndThrowBusinessException(!agreementNumber, BusinessMessage.MSB005);
         return this.agreementPort.findByNumber(agreementNumber)
             .then(agreement => {
-                if (!agreement) throw new BusinessException(BusinessMessage.MSB001);
+                checkAndThrowBusinessException(!agreement, BusinessMessage.MSB001);
                 return agreement;
             });
     }
@@ -53,7 +53,7 @@ export default class AgreementUsecase {
     async findByProperties(properties) {
         return this.agreementPort.findByProperties(properties)
             .then(agreement => {
-                if (!agreement) throw new BusinessException(BusinessMessage.MSB001);
+                checkAndThrowBusinessException(!agreement, BusinessMessage.MSB001);
                 return agreement;
             });
     }
@@ -61,25 +61,25 @@ export default class AgreementUsecase {
     async updateById(agreementToUpdate) {
         return this.agreementPort.findById(agreementToUpdate.id)
             .then(agreement => {
-                if (!agreement) throw new BusinessException(BusinessMessage.MSB002);
+                checkAndThrowBusinessException(!agreement, BusinessMessage.MSB002);
                 return this.agreementPort.updateById(agreementToUpdate);
             })
     }
 
     async deleteById(agreementId) {
-        if (isNaN(agreementId)) throw new BusinessException(BusinessMessage.MSB005);
+        checkAndThrowBusinessException(isNaN(agreementId), BusinessMessage.MSB005);
         return this.agreementPort.findById(agreementId)
             .then(agreement => {
-                if (!agreement) throw new BusinessException(BusinessMessage.MSB004);
+                checkAndThrowBusinessException(!agreement, BusinessMessage.MSB004);
                 return this.agreementPort.deleteById(agreementId);
             })
     }
 
     async deleteByNumber(agreementNumber) {
-        if (isNaN(agreementNumber)) throw new BusinessException(BusinessMessage.MSB005);
+        checkAndThrowBusinessException(isNaN(agreementNumber), BusinessMessage.MSB005);
         return this.agreementPort.findByNumber(agreementNumber)
             .then(agreement => {
-                if (!agreement) throw new BusinessException(BusinessMessage.MSB004);
+                checkAndThrowBusinessException(!agreement, BusinessMessage.MSB004);
                 return this.agreementPort.deleteByNumber(agreementNumber);
             })
     }

@@ -1,4 +1,4 @@
-import Agreement from "../../../../../../../../domain/model/agreement/Agreement.js";
+import Agreement from "../../../../../../../../domain/model/entities/agreement/Agreement.js";
 
 function dataToDomain(data) {
     return new Agreement({

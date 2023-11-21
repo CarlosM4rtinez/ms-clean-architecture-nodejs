@@ -1,4 +1,4 @@
-import Document from "../../../../../../../../domain/model/document/Document.js";
+import Document from "../../../../../../../../domain/model/entities/document/Document.js";
 
 function dataToDomain(data) {
     return new Document({

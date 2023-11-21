@@ -1,9 +1,9 @@
-import TechnicalException from "../../../../../domain/model/exception/TechnicalException.js";
+import TechnicalException from "../../../../../domain/model/common/exception/TechnicalException.js";
 import AddGeolocationRequestDTO from "./dto/AddGeolocationRequestDTO.js";
 import "dotenv/config";
 import axiosClient from "axios";
 import { retriesConfiguration, setRetries } from "../../config/RetriesConfig.js";
-import { TechnicalMessage } from "../../../../../domain/model/exception/message/TechnicalMessage.js";
+import { TechnicalMessage } from "../../../../../domain/model/common/exception/message/TechnicalMessage.js";
 
 export default class GeolocationPort {
 

@@ -1,5 +1,5 @@
-import BusinessException from "../../model/exception/BusinessException.js"
-import { BusinessMessage } from "../../model/exception/message/BusinessMessage.js"
+import BusinessException from "../../common/exception/BusinessException.js"
+import { BusinessMessage } from "../../common/exception/message/BusinessMessage.js"
 
 export default class Document {
 

@@ -1,4 +1,4 @@
-import geolocation from "../../model/geolocation";
+import geolocation from "../../model/entities/geolocation";
 
 export default function addGeolocationUsecase(geolocationModel){
     

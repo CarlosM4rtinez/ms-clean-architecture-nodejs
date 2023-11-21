@@ -1,6 +1,5 @@
-import { v4 as uuidv4 } from "uuid";
-import BusinessException from "../exception/BusinessException.js";
-import { BusinessMessage } from "../exception/message/BusinessMessage.js";
+import BusinessException from "../../common/exception/BusinessException.js";
+import { BusinessMessage } from "../../common/exception/message/BusinessMessage.js";
 
 export default class Geolocation {
 

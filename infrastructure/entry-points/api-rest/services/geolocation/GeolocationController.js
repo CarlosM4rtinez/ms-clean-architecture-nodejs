@@ -1,4 +1,4 @@
-import Geolocation from "../../../../../domain/model/geolocation/Geolocation.js";
+import Geolocation from "../../../../../domain/model/entities/geolocation/Geolocation.js";
 import GeolocationUsecase from "../../../../../domain/usecase/geolocation/GeolocationUsecase.js";
 import GeolocationPort from "../../../../driven-adapters/axios-client/adapters/geolocation/GeolocationPort.js";
 import axios from "axios";
