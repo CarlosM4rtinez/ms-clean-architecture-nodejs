@@ -1,6 +1,6 @@
 import Document from "../../../../../../../../domain/model/document/Document.js";
 
-function dataToModel(data) {
+function dataToDomain(data) {
     return new Document({
         id: data.id,
         name: data.name,
@@ -19,10 +19,10 @@ function dataToModel(data) {
     });
 }
 
-function listToModel(documentsList) {
+function listToDomain(documentsList) {
     return documentsList.map(documentData => {
-        return dataToModel(documentData);
+        return dataToDomain(documentData);
     });
 }
 
-export { dataToModel, listToModel }
+export { dataToDomain, listToDomain }

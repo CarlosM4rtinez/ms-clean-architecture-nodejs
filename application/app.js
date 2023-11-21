@@ -31,7 +31,7 @@ const swaggerOptions = {
             },
         ],
     },
-    apis: ['../infrastructure/entry-points/api-rest/services/Services.js'],
+    apis: ['../infrastructure/entry-points/api-rest/services/*/*Services.js'],
 };
 var options = {
     explorer: true,

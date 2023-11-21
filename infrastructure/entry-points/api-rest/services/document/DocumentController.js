@@ -16,11 +16,18 @@ export default class DocumentController {
             .catch(exception => next(exception));
     }
 
-    async list(request, response, next) {
+    /*async list(request, response, next) {
         const documentPort = new DocumentPort();
         const documentUsecase = new DocumentUsecase(documentPort);
         const properties = request.query.properties;
         const list = (!properties) ? documentUsecase.list() : documentUsecase.findByProperties(properties);
+        return list.then(list => responseOk(list, response))
+            .catch(exception => next(exception));
+    } */
+
+    async list(request, response, next) {
+        const properties = request.query.properties;
+        const list = (!properties) ? this.documentUsecase.list() : this.documentUsecase.findByProperties(properties);
         return list.then(list => responseOk(list, response))
             .catch(exception => next(exception));
     }

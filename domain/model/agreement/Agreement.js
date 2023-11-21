@@ -1,6 +1,7 @@
 export default class Agreement {
 
     constructor(data) {
+        this.id = data.id;
         this.number = data.number;
         this.name = data.name; 
         this.companyName = data.companyName;
