@@ -4,18 +4,22 @@ export default class AgreementServices {
 
     constructor(express, agreementUsecase) {
         this.router = express.Router();
-        this.agreementController = new AgreementController(agreementUsecase);
+        this.controller = new AgreementController(agreementUsecase);
+        this.setupServices();
     }
 
-    addServices(){
-        this.router.route("/").post(this.agreementController.create);
-        this.router.route("/").get(this.agreementController.list);
-        this.router.route("/:agreementNumber").get(this.agreementController.findByNumber);
-        this.router.route("/id/:agreementId").get(this.agreementController.findById);
-        this.router.route("/name/:agreementName").get(this.agreementController.findByName);
-        this.router.route("/").put(this.agreementController.update);
-        this.router.route("/:agreementId").delete(this.agreementController.deleteById);
-        this.router.route("/").delete(this.agreementController.deleteByNumber);
+    setupServices() {
+        this.router.post("/", this.controller.create.bind(this.controller));
+        this.router.get("/", this.controller.list.bind(this.controller));
+        this.router.get("/:agreementNumber", this.controller.findByNumber.bind(this.controller));
+        this.router.get("/id/:agreementId", this.controller.findById.bind(this.controller));
+        this.router.get("/name/:agreementName", this.controller.findByName.bind(this.controller));
+        this.router.put("/", this.controller.update.bind(this.controller));
+        this.router.delete("/:agreementId", this.controller.deleteById.bind(this.controller));
+        this.router.delete("/", this.controller.deleteByNumber.bind(this.controller));
+    }
+
+    getServices() {
         return this.router;
     }
 

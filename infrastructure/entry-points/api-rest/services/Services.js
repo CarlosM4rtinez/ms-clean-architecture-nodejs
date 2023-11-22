@@ -25,21 +25,21 @@ export default class Services {
         const geolocationPort = new GeolocationPort();
         const geolocationUsecase = new GeolocationUsecase(geolocationPort);
         const geolocationServices = new GeolocationServices(this.express, geolocationUsecase);
-        return geolocationServices.addServices();
+        return geolocationServices.getServices();
     }
 
     agreementServices() {
         const agreementPort = new AgreementPort();
         const agreementUsecase = new AgreementUsecase(agreementPort);
         const agreementServices = new AgreementServices(this.express, agreementUsecase);
-        return agreementServices.addServices();
+        return agreementServices.getServices();
     }
 
     documentServices() {
         const documentPort = new DocumentPort();
         const documentUsecase = new DocumentUsecase(documentPort);
         const documentServices = new DocumentServices(this.express, documentUsecase);
-        return documentServices.addServices();
+        return documentServices.getServices();
     }
 
 }

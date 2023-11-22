@@ -4,16 +4,16 @@ export default class GeolocationServices {
 
     constructor(express, geolocationUsecase) {
         this.router = express.Router();
-        this.geolocationController = this.buildGeolocationController(geolocationUsecase);
+        this.controller = new GeolocationController(geolocationUsecase);
+        this.setupServices();
     }
 
-    buildGeolocationController(geolocationUsecase) {
-        return new GeolocationController(geolocationUsecase);
+    setupServices() {
+        this.router.post("/", this.controller.create.bind(this.controller));
+        this.router.get("/", this.controller.list.bind(this.controller));
     }
 
-    addServices() {
-        this.router.route("/").post(this.geolocationController.create);
-        this.router.route("/").get(this.geolocationController.list);
+    getServices() {
         return this.router;
     }
 

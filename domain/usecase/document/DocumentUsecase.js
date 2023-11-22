@@ -1,5 +1,5 @@
-import BusinessException from "../../model/common/exception/BusinessException.js"
-import { BusinessMessage } from "../../model/common/exception/message/BusinessMessage.js"
+import { BusinessMessage } from "../../model/common/exception/message/BusinessMessage.js";
+import { checkAndThrowBusinessException } from "../../model/common/exception/util/ExceptionUtil.js";
 
 export default class DocumentUsecase {
 
@@ -10,7 +10,7 @@ export default class DocumentUsecase {
     async create(newDocument) {
         return this.documentPort.findByTechnicalName(newDocument.technicalName)
             .then(document => {
-                if (document) throw new BusinessException(BusinessMessage.MSB003);
+                checkAndThrowBusinessException(document, BusinessMessage.MSB003);
                 return this.documentPort.create(newDocument);
             });
     }
@@ -18,34 +18,34 @@ export default class DocumentUsecase {
     async list() {
         return this.documentPort.list()
             .then(documents => {
-                if (!documents) throw new BusinessException(BusinessMessage.MSB001);
+                checkAndThrowBusinessException(!documents, BusinessMessage.MSB001);
                 return documents;
             });
     }
 
     async findById(id) {
-        if (isNaN(id)) throw new BusinessException(BusinessMessage.MSB005);
+        checkAndThrowBusinessException(isNaN(id), BusinessMessage.MSB005);
         return this.documentPort.findById(id)
             .then(document => {
-                if (!document) throw new BusinessException(BusinessMessage.MSB001);
+                checkAndThrowBusinessException(!document, BusinessMessage.MSB001);
                 return document;
             });
     }
 
     async findByName(name) {
-        if (!name) throw new BusinessException(BusinessMessage.MSB005);
+        checkAndThrowBusinessException(!name, BusinessMessage.MSB005);
         return this.documentPort.findByName(name)
             .then(document => {
-                if (!document) throw new BusinessException(BusinessMessage.MSB001);
+                checkAndThrowBusinessException(!document, BusinessMessage.MSB001);
                 return document;
             });
     }
 
     async findByTechnicalName(documentTechnicalName) {
-        if (!documentTechnicalName) throw new BusinessException(BusinessMessage.MSB005);
+        checkAndThrowBusinessException(!documentTechnicalName, BusinessMessage.MSB005);
         return this.documentPort.findByTechnicalName(documentTechnicalName)
             .then(document => {
-                if (!document) throw new BusinessException(BusinessMessage.MSB001);
+                checkAndThrowBusinessException(!document, BusinessMessage.MSB001);
                 return document;
             });
     }
@@ -53,7 +53,7 @@ export default class DocumentUsecase {
     async findByProperties(properties) {
         return this.documentPort.findByProperties(properties)
             .then(documents => {
-                if (!documents) throw new BusinessException(BusinessMessage.MSB001);
+                checkAndThrowBusinessException(!documents, BusinessMessage.MSB001);
                 return documents;
             });
     }
@@ -61,25 +61,25 @@ export default class DocumentUsecase {
     async updateById(documentToUpdate) {
         return this.documentPort.findById(documentToUpdate.id)
             .then(document => {
-                if (!document) throw new BusinessException(BusinessMessage.MSB002);
+                checkAndThrowBusinessException(!document, BusinessMessage.MSB002);
                 return this.documentPort.updateById(documentToUpdate);
             })
     }
 
     async deleteById(id) {
-        if (isNaN(id)) throw new BusinessException(BusinessMessage.MSB005);
+        checkAndThrowBusinessException(isNaN(id), BusinessMessage.MSB005);
         return this.documentPort.findById(id)
             .then(document => {
-                if (!document) throw new BusinessException(BusinessMessage.MSB004);
+                checkAndThrowBusinessException(!document, BusinessMessage.MSB004);
                 return this.documentPort.deleteById(id);
             })
     }
 
     async deleteByTechnicalName(documentTechnicalName) {
-        if (!documentTechnicalName) throw new BusinessException(BusinessMessage.MSB005);
+        checkAndThrowBusinessException(!documentTechnicalName, BusinessMessage.MSB005);
         return this.documentPort.findByTechnicalName(documentTechnicalName)
             .then(document => {
-                if (!document) throw new BusinessException(BusinessMessage.MSB004);
+                checkAndThrowBusinessException(!document, BusinessMessage.MSB004);
                 return this.documentPort.deleteByTechnicalName(documentTechnicalName);
             })
     }

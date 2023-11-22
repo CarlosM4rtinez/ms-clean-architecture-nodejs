@@ -4,18 +4,22 @@ export default class DocumentServices {
 
     constructor(express, documentUsecase) {
         this.router = express.Router();
-        this.documentController = new DocumentController(documentUsecase);
+        this.controller = new DocumentController(documentUsecase);
+        this.setupServices();
     }
 
-    addServices(){
-        this.router.route("/").post(this.documentController.create);
-        this.router.route("/").get(this.documentController.list);
-        this.router.route("/:documentTechnicalName").get(this.documentController.findByTechnicalName);
-        this.router.route("/id/:documentId").get(this.documentController.findById);
-        this.router.route("/name/:documentName").get(this.documentController.findByName);
-        this.router.route("/").put(this.documentController.update);
-        this.router.route("/:documentId").delete(this.documentController.deleteById);
-        this.router.route("/").delete(this.documentController.deleteByTechnicalName);
+    setupServices() {
+        this.router.post("/", this.controller.create.bind(this.controller));
+        this.router.get("/", this.controller.list.bind(this.controller));
+        this.router.get("/:documentTechnicalName", this.controller.findByTechnicalName.bind(this.controller));
+        this.router.get("/id/:documentId", this.controller.findById.bind(this.controller));
+        this.router.get("/name/:documentName", this.controller.findByName.bind(this.controller));
+        this.router.put("/", this.controller.update.bind(this.controller));
+        this.router.delete("/:documentId", this.controller.deleteById.bind(this.controller));
+        this.router.delete("/", this.controller.deleteByTechnicalName.bind(this.controller));
+    }
+
+    getServices() {
         return this.router;
     }
 
