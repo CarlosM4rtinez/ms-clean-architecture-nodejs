@@ -4,13 +4,14 @@ import { configureApp, configureHealthService, startServer } from "./config/AppC
 import exceptionHandler from "../infrastructure/entry-points/api-rest/handlers/ExceptionHandler.js"
 import swaggerJSDoc from "swagger-jsdoc";
 import SwaggerUi from "swagger-ui-express";
+import dependencyContainer from "./config/DependencyContainer.js"
 
 const app = express();
 configureApp(app);
 configureHealthService(app);
 startServer(app);
 
-const services = new Services(app, express);
+const services = new Services(app, express, dependencyContainer.resolveDependency("geolocationUsecase"));
 services.defineAllRoutes();
 
 app.use(exceptionHandler);
