@@ -23,4 +23,12 @@ export const BusinessMessage = {
         code: "MSB005",
         message: "The identifier is required."
     },
+    MSB006: {
+        code: "MSB006",
+        message: "No records found to be related."
+    },
+    MSB007: {
+        code: "MSB007",
+        message: "Required attributes are missing."
+    },
 }

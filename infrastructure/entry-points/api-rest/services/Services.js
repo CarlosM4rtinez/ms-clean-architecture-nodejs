@@ -10,6 +10,9 @@ import DocumentServices from "./document/DocumentServices.js";
 import FieldPort from "../../../driven-adapters/prisma-client-db/src/module/adapters/field/FieldPort.js";
 import FieldUsecase from "../../../../domain/usecase/field/FieldUsecase.js";
 import FieldServices from "./field/FieldServices.js";
+import VersionPort from "../../../driven-adapters/prisma-client-db/src/module/adapters/version/VersionPort.js";
+import VersionUsecase from "../../../../domain/usecase/version/VersionUsecase.js";
+import VersionServices from "./version/VersionServices.js";
 
 export default class Services {
 
@@ -24,6 +27,7 @@ export default class Services {
         this.app.use("/api/v1/agreements", this.agreementServices())
         this.app.use("/api/v1/documents", this.documentServices())
         this.app.use("/api/v1/fields", this.fieldServices())
+        this.app.use("/api/v1/versions", this.versionServices())
     }
 
     geolocationServices() {
@@ -52,6 +56,14 @@ export default class Services {
         const fieldUsecase = new FieldUsecase(fieldPort);
         const fieldServices = new FieldServices(this.express, fieldUsecase);
         return fieldServices.getServices();
+    }
+
+    versionServices() {
+        const versionPort = new VersionPort();
+        const agreementPort = new AgreementPort();
+        const versionUsecase = new VersionUsecase(versionPort, agreementPort);
+        const versionServices = new VersionServices(this.express, versionUsecase);
+        return versionServices.getServices();
     }
 
 }
