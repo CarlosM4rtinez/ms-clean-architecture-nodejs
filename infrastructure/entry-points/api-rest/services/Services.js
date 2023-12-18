@@ -13,6 +13,9 @@ import FieldServices from "./field/FieldServices.js";
 import VersionPort from "../../../driven-adapters/prisma-client-db/src/module/adapters/version/VersionPort.js";
 import VersionUsecase from "../../../../domain/usecase/version/VersionUsecase.js";
 import VersionServices from "./version/VersionServices.js";
+import CachePort from "../../../driven-adapters/redis/src/module/adapters/cache/CachePort.js";
+import CacheUsecase from "../../../../domain/usecase/cache/CacheUsecase.js";
+import CacheServices from "./cache/CacheServices.js";
 
 export default class Services {
 
@@ -24,10 +27,11 @@ export default class Services {
 
     defineAllRoutes() {
         this.app.use("/api/v1/geolocations", this.geolocationServices());
-        this.app.use("/api/v1/agreements", this.agreementServices())
-        this.app.use("/api/v1/documents", this.documentServices())
-        this.app.use("/api/v1/fields", this.fieldServices())
-        this.app.use("/api/v1/versions", this.versionServices())
+        this.app.use("/api/v1/agreements", this.agreementServices());
+        this.app.use("/api/v1/documents", this.documentServices());
+        this.app.use("/api/v1/fields", this.fieldServices());
+        this.app.use("/api/v1/versions", this.versionServices());
+        this.app.use("/api/v1/cache", this.cacheServices())
     }
 
     geolocationServices() {
@@ -64,6 +68,13 @@ export default class Services {
         const versionUsecase = new VersionUsecase(versionPort, agreementPort);
         const versionServices = new VersionServices(this.express, versionUsecase);
         return versionServices.getServices();
+    }
+
+    cacheServices() {
+        const cachePort = new CachePort();
+        const cacheUsecase = new CacheUsecase(cachePort);
+        const cacheServices = new CacheServices(this.express, cacheUsecase);
+        return cacheServices.getServices();
     }
 
 }

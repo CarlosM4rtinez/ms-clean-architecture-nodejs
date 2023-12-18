@@ -16,6 +16,17 @@ services.defineAllRoutes();
 
 app.use(exceptionHandler);
 
+console.log('Las rutas expuestas en el microservicio son:');
+app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+        console.log(`${Object.keys(middleware.route.methods)} -> ${middleware.route.path}`);
+      } else if (middleware.name === 'router') {
+        middleware.handle.stack.forEach((handler) => {
+          console.log(`${Object.keys(handler.route.methods)} -> ${middleware.regexp}${handler.route.path}`);
+        });
+      }
+});
+
 
 const swaggerOptions = {
     failOnErrors: true,
