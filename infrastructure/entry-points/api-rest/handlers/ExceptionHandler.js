@@ -3,8 +3,8 @@ import TechnicalException from "../../../../domain/model/common/exception/Techni
 import BusinessException from "../../../../domain/model/common/exception/BusinessException.js";
 import ErrorDTO from "../commons/dto/ErrorDTO.js";
 import { TechnicalMessage } from "../../../../domain/model/common/exception/message/TechnicalMessage.js"
-import logger from "../../../helpers/logs/src/Logger.js";
-import LogData from "../../../helpers/logs/src/LogData.js";
+import logger from "../../../helpers/logger/src/Logger.js";
+import LogData from "../../../helpers/logger/src/LogData.js";
 
 export default function exceptionHandler(exception, request, response, next) {
     const data = getDataFromException(exception);
