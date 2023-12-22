@@ -3,18 +3,25 @@ import TechnicalException from "../../../../domain/model/common/exception/Techni
 import BusinessException from "../../../../domain/model/common/exception/BusinessException.js";
 import ErrorDTO from "../commons/dto/ErrorDTO.js";
 import { TechnicalMessage } from "../../../../domain/model/common/exception/message/TechnicalMessage.js"
+import logger from "../../../helpers/logs/src/Logger.js";
+import LogData from "../../../helpers/logs/src/LogData.js";
 
 export default function exceptionHandler(exception, request, response, next) {
-    console.log(exception);
+    const data = getDataFromException(exception);
+    const errorResponse = buildErrorResponse(response, data.status, data.error);
+    logger.error(new LogData(request, errorResponse, exception, data.error));
+    return errorResponse;
+}
+
+function getDataFromException(exception) {
     switch (exception.constructor) {
         case TechnicalException:
-            return buildTechnicalResponse(buildErrorDTO(exception), response);
+            return { error: buildErrorDTO(exception), status: HttpStatusCode.INTERNAL_SERVER_ERROR }
         case BusinessException:
-            return buildBusinessResponse(buildErrorDTO(exception), response);
+            return { error: buildErrorDTO(exception), status: HttpStatusCode.CONFLICT }
         default:
-            return buildTechnicalResponse(buildDefaultErrorDTO(exception), response);
+            return { error: buildDefaultErrorDTO(exception), status: HttpStatusCode.INTERNAL_SERVER_ERROR }
     }
-
 }
 
 function buildErrorDTO(exception) {
@@ -25,14 +32,8 @@ function buildDefaultErrorDTO(exception) {
     return new ErrorDTO(TechnicalMessage.MST000.code, TechnicalMessage.MST000.message, exception.message)
 }
 
-function buildBusinessResponse(error, response) {
+function buildErrorResponse(response, httpStatusCode, error) {
     return response
-        .status(HttpStatusCode.CONFLICT)
-        .send(error);
-}
-
-function buildTechnicalResponse(error, response) {
-    return response
-        .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
+        .status(httpStatusCode)
         .send(error);
 }

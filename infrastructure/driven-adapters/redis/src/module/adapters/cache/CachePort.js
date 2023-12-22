@@ -1,11 +1,11 @@
-import { Redis } from "ioredis";
+import buildClientRedis from "../../config/RedisClientConfig.js";
 import { exceptionHandler } from "../../../../../../../domain/model/common/exception/util/ExceptionUtil.js"
 import { CacheTechnicalMessage } from "../../../../../../../domain/model/entities/cache/message/CacheTechnicalMessage.js"
 
 export default class CachePort {
 
     constructor() {
-        this.cacheClient = new Redis();
+        this.cacheClient = buildClientRedis();
     }
 
     async save(cache) {
