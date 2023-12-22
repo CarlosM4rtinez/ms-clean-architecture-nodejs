@@ -16,13 +16,14 @@ import VersionServices from "./version/VersionServices.js";
 import CachePort from "../../../driven-adapters/redis/src/module/adapters/cache/CachePort.js";
 import CacheUsecase from "../../../../domain/usecase/cache/CacheUsecase.js";
 import CacheServices from "./cache/CacheServices.js";
+import RoutePrinterUtil from "../commons/util/RoutePrinterUtil.js";
 
 export default class Services {
 
-    constructor(app, express, geolocationServices) {
+    constructor(app, express) {
         this.app = app;
         this.express = express;
-        this.geolocationServicess = geolocationServices;
+        this.RoutePrinterUtil = new RoutePrinterUtil(app);
     }
 
     defineAllRoutes() {
@@ -32,6 +33,7 @@ export default class Services {
         this.app.use("/api/v1/fields", this.fieldServices());
         this.app.use("/api/v1/versions", this.versionServices());
         this.app.use("/api/v1/cache", this.cacheServices())
+        this.RoutePrinterUtil.printAllRoutes();
     }
 
     geolocationServices() {

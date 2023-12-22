@@ -1,9 +1,9 @@
-import pino from "pino";
+import buildLogger from "./LoggerConfig.js";
 
 class Logger {
 
     constructor() {
-        this.log = pino();
+        this.log = buildLogger();
     }
 
     error(logDTO) {
