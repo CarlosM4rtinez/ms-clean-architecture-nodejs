@@ -1,10 +1,8 @@
-import AgreementController from "./AgreementController.js";
-
 export default class AgreementServices {
 
-    constructor(express, agreementUsecase) {
+    constructor(express, agreementController) {
         this.router = express.Router();
-        this.controller = new AgreementController(agreementUsecase);
+        this.controller = agreementController;
         this.setupServices();
     }
 

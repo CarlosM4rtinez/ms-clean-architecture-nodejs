@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import HttpStatusCode from "http-status-codes"
 import compression from "compression";
+import logger from "../../infrastructure/helpers/logger/src/Logger.js";
 
 function configureApp(app) {
     app.use(express.json({ limit: '50mb' }));
@@ -22,9 +23,7 @@ function configureHealthService(app) {
 
 function startServer(app) {
     const port = process.env.SERVER_PORT;
-    const server = app.listen(port, () => {
-        console.log(`App running at http://localhost:${port}`);
-    });
+    const server = app.listen(port, () => { logger.info(`App running at http://localhost:${port}`); });
     server.keepAliveTimeout = 30000;
     server.headersTimeout = 35000;
     server.requestTimeout = 10000

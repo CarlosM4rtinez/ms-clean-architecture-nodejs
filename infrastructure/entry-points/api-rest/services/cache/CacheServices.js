@@ -1,10 +1,9 @@
-import CacheController from "./CacheController.js";
 
 export default class CacheServices {
 
-    constructor(express, cacheUsecase) {
+    constructor(express, cacheController) {
         this.router = express.Router();
-        this.controller = new CacheController(cacheUsecase);
+        this.controller = cacheController
         this.setupServices();
     }
 

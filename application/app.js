@@ -4,14 +4,21 @@ import { configureApp, configureHealthService, startServer } from "./config/AppC
 import exceptionHandler from "../infrastructure/entry-points/api-rest/handlers/ExceptionHandler.js"
 import swaggerJSDoc from "swagger-jsdoc";
 import SwaggerUi from "swagger-ui-express";
+import DependencyContainer from "./config/DependencyContainer.js";
 
 const app = express();
 configureApp(app);
 configureHealthService(app);
 startServer(app);
 
-const services = new Services(app, express);
-services.defineAllRoutes();
+const dependencyContainer = new DependencyContainer();
+dependencyContainer.loadDependencies()
+    .then(() => {
+        dependencyContainer.registerValue("express", express).registerFunction();
+        const services = new Services(app, dependencyContainer);
+        services.defineAllRoutes();
+    });
+
 app.use(exceptionHandler);
 
 const swaggerOptions = {

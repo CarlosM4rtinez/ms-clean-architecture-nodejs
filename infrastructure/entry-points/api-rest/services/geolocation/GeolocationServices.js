@@ -1,10 +1,8 @@
-import GeolocationController from "./GeolocationController.js";
-
 export default class GeolocationServices {
 
-    constructor(express, geolocationUsecase) {
+    constructor(express, geolocationController) {
         this.router = express.Router();
-        this.controller = new GeolocationController(geolocationUsecase);
+        this.controller = geolocationController
         this.setupServices();
     }
 
