@@ -2,47 +2,32 @@ import Services from "../infrastructure/entry-points/api-rest/services/Services.
 import express from "express";
 import { configureApp, configureHealthService, startServer } from "./config/AppConfig.js";
 import exceptionHandler from "../infrastructure/entry-points/api-rest/handlers/ExceptionHandler.js"
-import swaggerJSDoc from "swagger-jsdoc";
-import SwaggerUi from "swagger-ui-express";
 import DependencyContainer from "./config/DependencyContainer.js";
+import { configureSwaggerApp } from "./config/SwaggerConfig.js";
 
-const app = express();
-configureApp(app);
-configureHealthService(app);
-startServer(app);
+class App {
 
-const dependencyContainer = new DependencyContainer();
-dependencyContainer.loadDependencies()
-    .then(() => {
-        dependencyContainer.registerValue("express", express).registerFunction();
-        const services = new Services(app, dependencyContainer);
-        services.defineAllRoutes();
-    });
+    constructor() {
+        this.app = express();
+        configureApp(this.app);
+        configureHealthService(this.app);
+        this.loadServices();
+        this.app.use(exceptionHandler);
+        configureSwaggerApp(this.app);
+        startServer(this.app);
 
-app.use(exceptionHandler);
+    }
 
-const swaggerOptions = {
-    failOnErrors: true,
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Microservice with clean architecture API',
-            version: '1.0.0',
-            description: "A sample microservice with clean architecture and swagger implementation to document API."
-        },
-        servers: [
-            {
-                url: 'http://localhost:3000',
-            },
-        ],
-    },
-    apis: ['../infrastructure/entry-points/api-rest/services/*/*Services.js'],
-};
-var options = {
-    explorer: true,
-    url: "/api-docs/swagger.json",
-};
-const swaggerDocs = swaggerJSDoc(swaggerOptions);
-app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(swaggerDocs, options));
+    loadServices() {
+        const dependencyContainer = new DependencyContainer();
+        dependencyContainer.loadDependencies()
+            .then(() => {
+                dependencyContainer.registerValue("express", express);
+                const services = new Services(this.app, dependencyContainer);
+                services.defineAllRoutes();
+            });
+    }
 
-export default app;
+}
+
+export default new App().app

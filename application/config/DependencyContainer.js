@@ -11,30 +11,25 @@ export default class DependencyContainer {
 
     modulesRoutes() {
         return [
-            ['infrastructure/driven-adapters/*/src/module/adapters/*/*Port.js'],
+            ['infrastructure/driven-adapters/*/src/module/adapters/*/*Port.js', Lifetime.TRANSIENT],
             ['domain/usecase/*/*Usecase.js', Lifetime.TRANSIENT],
             ['infrastructure/entry-points/api-rest/services/*/*.js', Lifetime.SCOPED]
         ];
     }
 
-    loadDependencies() {
-        return this.container.loadModules(this.modulesRoutes(), {
-            formatName: 'camelCase',
-            esModules: true,
-            resolverOptions: {
-                injectionMode: InjectionMode.CLASSIC
-            }
-        }).then(() => {
+    async loadDependencies() {
+        try {
+            await this.container.loadModules(this.modulesRoutes(), {
+                formatName: 'camelCase',
+                esModules: true,
+                resolverOptions: {
+                    injectionMode: InjectionMode.CLASSIC
+                }
+            });
             logger.info({ message: "All dependencies successfully loaded", dependencies: this.list() });
-        }).catch(error => {
+        } catch (error) {
             logger.error({ message: 'Error loading dependencies:', exception: error.message });
-        });
-    }
-
-    registerDependency(name, classInstance) {
-        this.container.register({
-            [name]: asClass(classInstance).singleton()
-        });
+        }
     }
 
     registerValue(name, value) {
@@ -42,13 +37,6 @@ export default class DependencyContainer {
             [name]: asValue(value)
         });
         return this;
-    }
-
-    registerFunction() {
-        const router = this.resolveDependency("express");
-        this.container.register({
-            Router: asFunction(() => router).singleton(),
-        });
     }
 
     resolveDependency(name) {

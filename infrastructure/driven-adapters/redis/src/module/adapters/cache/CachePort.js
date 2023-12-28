@@ -5,7 +5,7 @@ import { CacheTechnicalMessage } from "../../../../../../../domain/model/entitie
 export default class CachePort {
 
     constructor() {
-        this.cacheClient = buildClientRedis();
+        this.cacheClient = null;//buildClientRedis();
     }
 
     async save(cache) {
