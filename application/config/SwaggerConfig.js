@@ -1,5 +1,7 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import SwaggerUi from "swagger-ui-express";
+import logger from "../../infrastructure/helpers/logger/src/Logger.js";
+import { getHost } from "../../infrastructure/helpers/logger/src/util/Utilities.js";
 
 function swaggerOptions() {
     return {
@@ -13,21 +15,23 @@ function swaggerOptions() {
             },
             servers: [
                 {
-                    url: 'http://localhost:3000',
+                    url: getHost(),
                 },
             ],
         },
-        apis: ['../infrastructure/entry-points/api-rest/services/*/*Services.js'],
+        apis: ['infrastructure/entry-points/api-rest/services/*/*Services.js'],
     };
 }
 
 function configureSwaggerApp(app) {
+    const path = "/api-docs"
     let options = {
         explorer: true,
-        url: "/api-docs/swagger.json",
+        url: "/swagger.json",
     };
     const swaggerDocs = swaggerJSDoc(swaggerOptions());
-    app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(swaggerDocs, options));
+    app.use(path, SwaggerUi.serve, SwaggerUi.setup(swaggerDocs, options));
+    logger.info(`Swagger successfully loaded at ${getHost().concat(path)}`);
 }
 
 export { configureSwaggerApp }

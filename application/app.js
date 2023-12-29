@@ -11,21 +11,20 @@ class App {
         this.app = express();
         configureApp(this.app);
         configureHealthService(this.app);
-        this.loadServices();
-        this.app.use(exceptionHandler);
-        configureSwaggerApp(this.app);
-        startServer(this.app);
-
+        this.loadServices()
+            .then(() => {
+                this.app.use(exceptionHandler);
+                configureSwaggerApp(this.app);
+                startServer(this.app);
+            });
     }
 
-    loadServices() {
+    async loadServices() {
         const dependencyContainer = new DependencyContainer();
-        dependencyContainer.loadDependencies()
-            .then(() => {
-                dependencyContainer.registerValue("express", express);
-                const services = new Services(this.app, dependencyContainer);
-                services.defineAllRoutes();
-            });
+        await dependencyContainer.loadDependencies();
+        dependencyContainer.registerValue("express", express);
+        const services = new Services(this.app, dependencyContainer);
+        services.defineAllRoutes();
     }
 
 }
