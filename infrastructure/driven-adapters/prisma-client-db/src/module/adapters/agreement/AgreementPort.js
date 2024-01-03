@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client"
 import { TechnicalMessage } from "../../../../../../../domain/model/common/exception/message/TechnicalMessage.js";
 import UpdateAgreementDTO from "./dto/UpdateAgreementDTO.js";
 import CreateAgreementDTO from "./dto/CreateAgreementDTO.js";
-import { dataToDomain, listToDomain } from "./mapper/AgreementMapper.js";
+import { dataToDomain, listToDomain, dataWithObjectsToDomain } from "./mapper/AgreementMapper.js";
 import { exceptionHandler } from "../../../../../../../domain/model/common/exception/util/ExceptionUtil.js"
 
 export default class AgreementPort {
@@ -72,6 +72,13 @@ export default class AgreementPort {
         return await this.dbConnection.agreement
             .delete({ where: { numero: agreementNumber } })
             .catch(exception => exceptionHandler(TechnicalMessage.MST005, exception));
+    }
+
+    async getAgreementWithDocuments(agreementNumber) {
+        return await this.dbConnection.agreement
+            .findUnique({ where: { numero: agreementNumber }, include: { documents: { include: { document: true } } } })
+            .then(result => (result) ? dataWithObjectsToDomain(result) : result)
+            .catch(exception => exceptionHandler(TechnicalMessage.MST001, exception));
     }
 
 }

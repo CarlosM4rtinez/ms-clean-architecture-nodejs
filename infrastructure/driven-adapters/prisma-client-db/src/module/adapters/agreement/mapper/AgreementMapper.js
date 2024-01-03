@@ -1,4 +1,5 @@
 import Agreement from "../../../../../../../../domain/model/entities/agreement/Agreement.js";
+import { dataToDomain as documentDataToDomain } from "../../document/mapper/DocumentMapper.js";
 
 function dataToDomain(data) {
     return new Agreement({
@@ -24,10 +25,17 @@ function dataToDomain(data) {
     });
 }
 
+function dataWithObjectsToDomain(data) {
+    const documents = data.documents.map(agreementDocument => documentDataToDomain(agreementDocument.document));
+    const agreement = dataToDomain(data);
+    agreement.addDocuments(documents);
+    return agreement;
+}
+
 function listToDomain(agreementsList) {
     return agreementsList.map(agreementData => {
         return dataToDomain(agreementData);
     });
 }
 
-export { dataToDomain, listToDomain }
+export { dataToDomain, listToDomain, dataWithObjectsToDomain }

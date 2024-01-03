@@ -84,4 +84,13 @@ export default class AgreementUsecase {
             })
     }
 
+    async getAgreementWithDocuments(agreementNumber) {
+        checkAndThrowBusinessException(!agreementNumber, BusinessMessage.MSB005);
+        return this.agreementPort.getAgreementWithDocuments(agreementNumber)
+            .then(agreement => {
+                checkAndThrowBusinessException(!agreement, BusinessMessage.MSB001);
+                return agreement;
+            });
+    }
+
 }

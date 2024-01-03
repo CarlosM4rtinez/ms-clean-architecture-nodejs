@@ -3,7 +3,7 @@ export default class Agreement {
     constructor(data) {
         this.id = data.id;
         this.number = data.number;
-        this.name = data.name; 
+        this.name = data.name;
         this.companyName = data.companyName;
         this.sectorCode = data.sectorCode;
         this.typeSectorCode = data.typeSectorCode;
@@ -20,9 +20,14 @@ export default class Agreement {
         this.signaturePromoter = data.signaturePromoter;
         this.videoTask = data.videoTask;
         this.signatureColor = data.signatureColor;
+        this.documents = [];
     }
 
-    setId(id){
+    setId(id) {
         this.id = id;
+    }
+
+    addDocuments(documents) {
+        this.documents = documents;
     }
 }

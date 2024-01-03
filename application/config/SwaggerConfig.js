@@ -23,14 +23,17 @@ function swaggerOptions() {
     };
 }
 
-function configureSwaggerApp(app) {
-    const path = "/api-docs"
-    let options = {
+function swaggerUiOptions() {
+    return {
         explorer: true,
         url: "/swagger.json",
     };
+}
+
+function configureSwaggerApp(app) {
+    const path = "/swagger"
     const swaggerDocs = swaggerJSDoc(swaggerOptions());
-    app.use(path, SwaggerUi.serve, SwaggerUi.setup(swaggerDocs, options));
+    app.use(path, SwaggerUi.serve, SwaggerUi.setup(swaggerDocs, swaggerUiOptions()));
     logger.info(`Swagger successfully loaded at ${getHost().concat(path)}`);
 }
 

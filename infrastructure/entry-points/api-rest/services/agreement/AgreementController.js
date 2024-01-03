@@ -55,4 +55,10 @@ export default class AgreementController {
             .catch(exception => next(exception));
     }
 
+    async getAgreementWithDocuments(request, response, next) {
+        return this.agreementUsecase.getAgreementWithDocuments(request.params.agreementNumber)
+            .then(agreement => responseOk(agreement, response))
+            .catch(exception => next(exception));
+    }
+
 }
