@@ -13,8 +13,8 @@ class App {
         configureHealthService(this.app);
         this.loadServices()
             .then(() => {
-                this.app.use(exceptionHandler);
                 configureSwaggerApp(this.app);
+                this.app.use(exceptionHandler);
                 startServer(this.app);
             });
     }

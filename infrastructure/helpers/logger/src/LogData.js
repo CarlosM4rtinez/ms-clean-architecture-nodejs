@@ -1,7 +1,6 @@
 export default class LogData {
 
     constructor(request, response, exception, responseBody) {
-        this.component = this.getNameComponent();
         this.request = this.buildLogRequest(request);
         this.response = this.buildLogResponse(response, responseBody);
         this.exception = this.buildLogException(exception);
@@ -40,10 +39,6 @@ export default class LogData {
             .split('\n')
             .reverse()
             .map((line, index) => (index + 1) + ": " + line.trim());
-    }
-
-    getNameComponent() {
-        return process.env.MICROSERVICE_NAME;
     }
 
 }
