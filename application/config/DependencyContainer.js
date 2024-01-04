@@ -1,4 +1,4 @@
-import { createContainer, asClass, asValue, asFunction, InjectionMode, Lifetime } from "awilix";
+import { createContainer, asValue, InjectionMode, Lifetime } from "awilix";
 import logger from "../../infrastructure/helpers/logger/src/Logger.js";
 
 export default class DependencyContainer {
@@ -18,18 +18,14 @@ export default class DependencyContainer {
     }
 
     async loadDependencies() {
-        try {
-            await this.container.loadModules(this.modulesRoutes(), {
-                formatName: 'camelCase',
-                esModules: true,
-                resolverOptions: {
-                    injectionMode: InjectionMode.CLASSIC
-                }
-            });
-            logger.info({ message: "All dependencies successfully loaded", dependencies: this.list() });
-        } catch (error) {
-            logger.error({ message: 'Error loading dependencies:', exception: error.message });
-        }
+        await this.container.loadModules(this.modulesRoutes(), {
+            formatName: 'camelCase',
+            esModules: true,
+            resolverOptions: {
+                injectionMode: InjectionMode.CLASSIC
+            }
+        });
+        logger.info({ message: "All dependencies successfully loaded", dependencies: this.list() });
     }
 
     registerValue(name, value) {

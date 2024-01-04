@@ -1,10 +1,8 @@
-import DocumentController from "./DocumentController.js";
-
 export default class DocumentServices {
 
-    constructor(express, documentUsecase) {
+    constructor(express, documentController) {
         this.router = express.Router();
-        this.controller = new DocumentController(documentUsecase);
+        this.controller = documentController;
         this.setupServices();
     }
 

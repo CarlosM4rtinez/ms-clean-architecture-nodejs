@@ -23,4 +23,28 @@ export default class DocumentFieldPort {
             .catch(exception => exceptionHandler(DocumentFieldTechnicalMessage.MST_DOCUMENT_FIELD_000, exception));
     }
 
+    async createMany(documentFieldList) {
+        return await this.dbConnection.documentField.createMany({ data: documentFieldList })
+            .then(result => result)
+            .catch(exception => exceptionHandler(DocumentFieldTechnicalMessage.MST_DOCUMENT_FIELD_001, exception));
+    }
+
+    async deleteById(documentFileId) {
+        return await this.dbConnection.documentField
+            .delete({ where: { id: documentFileId } })
+            .catch(exception => exceptionHandler(DocumentFieldTechnicalMessage.MST_DOCUMENT_FIELD_002, exception));
+    }
+
+    async deleteAllDocumentFieldsByDocument(documentTechnicalName) {
+        return await this.dbConnection.documentField
+            .deleteMany({ where: { document: documentTechnicalName } })
+            .catch(exception => exceptionHandler(DocumentFieldTechnicalMessage.MST_DOCUMENT_FIELD_002, exception));
+    }
+
+    async findById(id) {
+        return await this.dbConnection.documentField
+            .findUnique({ where: { id: id } })
+            .then(result => (result) ? dataToDomain(result) : result)
+            .catch(exception => exceptionHandler(DocumentFieldTechnicalMessage.MST_DOCUMENT_FIELD_000, exception));
+    }
 }

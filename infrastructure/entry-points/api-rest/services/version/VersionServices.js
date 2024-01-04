@@ -1,10 +1,8 @@
-import VersionController from "./VersionController.js";
-
 export default class VersionServices {
 
-    constructor(express, versionUsecase) {
+    constructor(express, versionController) {
         this.router = express.Router();
-        this.controller = new VersionController(versionUsecase);
+        this.controller = versionController;
         this.setupServices();
     }
 

@@ -1,16 +1,17 @@
-import DocumentFieldController from "./DocumentFieldController.js";
-
 export default class DocumentFieldServices {
 
-    constructor(express, documentFieldUsecase) {
+    constructor(express, documentFieldController) {
         this.router = express.Router();
-        this.controller = new DocumentFieldController(documentFieldUsecase);
+        this.controller = documentFieldController;
         this.setupServices();
     }
 
     setupServices() {
         this.router.get("/", this.controller.list.bind(this.controller));
         this.router.get("/document/:documentTechnicalName", this.controller.listByDocument.bind(this.controller));
+        this.router.post("/", this.controller.createMany.bind(this.controller));
+        this.router.delete("/:documentFieldId", this.controller.deleteById.bind(this.controller));
+        this.router.delete("/document/:documentTechnicalName", this.controller.deleteAllDocumentFieldsByDocument.bind(this.controller));
     }
 
     getServices() {

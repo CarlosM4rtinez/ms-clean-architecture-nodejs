@@ -1,3 +1,6 @@
+import { DocumentFieldBusinessMessage } from "./message/DocumentFieldBusinessMessage.js";
+import { checkAndThrowBusinessException } from "../../common/exception/util/ExceptionUtil.js";
+import { isEmpty } from "../../common/utilities/ValidatorUtil.js";
 export default class DocumentField {
 
     constructor(data) {
@@ -15,6 +18,12 @@ export default class DocumentField {
 
     getId() {
         return this.id;
+    }
+
+    checkRequiredProperties() {
+        checkAndThrowBusinessException(isEmpty(this.document), DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_000);
+        checkAndThrowBusinessException(isEmpty(this.field), DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_001);
+        checkAndThrowBusinessException(isEmpty(this.order), DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_003);
     }
 
 }

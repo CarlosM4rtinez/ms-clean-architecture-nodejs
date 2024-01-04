@@ -1,10 +1,8 @@
-import FieldController from "./FieldController.js";
-
 export default class FieldServices {
 
-    constructor(express, fieldUsecase) {
+    constructor(express, fieldController) {
         this.router = express.Router();
-        this.controller = new FieldController(fieldUsecase);
+        this.controller = fieldController;
         this.setupServices();
     }
 

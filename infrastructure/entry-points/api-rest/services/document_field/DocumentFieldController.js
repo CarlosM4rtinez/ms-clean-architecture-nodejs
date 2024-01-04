@@ -1,4 +1,5 @@
-import { responseOk } from "../../handlers/ResponseHandler.js"
+import DocumentField from "../../../../../domain/model/entities/document_field/DocumentField.js";
+import { responseOk, responseCreated, responseNoContent } from "../../handlers/ResponseHandler.js"
 
 export default class DocumentFieldController {
 
@@ -14,7 +15,26 @@ export default class DocumentFieldController {
 
     async listByDocument(request, response, next) {
         return this.documentFieldUsecase.listByDocument(request.params.documentTechnicalName)
-            .then(document => responseOk(document, response))
+            .then(list => responseOk(list, response))
+            .catch(exception => next(exception));
+    }
+
+    async createMany(request, response, next) {
+        const documentFieldsList = request.body.map(body => new DocumentField(body));
+        return this.documentFieldUsecase.createMany(documentFieldsList)
+            .then(list => responseCreated(list, response))
+            .catch(exception => next(exception));
+    }
+
+    async deleteById(request, response, next) {
+        return this.documentFieldUsecase.deleteById(request.params.documentFieldId)
+            .then(() => responseNoContent(response))
+            .catch(exception => next(exception));
+    }
+
+    async deleteAllDocumentFieldsByDocument(request, response, next) {
+        return this.documentFieldUsecase.deleteAllDocumentFieldsByDocument(request.params.documentTechnicalName)
+            .then(() => responseNoContent(response))
             .catch(exception => next(exception));
     }
 

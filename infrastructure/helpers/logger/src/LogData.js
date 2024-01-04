@@ -28,7 +28,7 @@ export default class LogData {
 
     buildLogException(exception) {
         return {
-            name: exception.name,
+            type: exception.constructor.name,
             message: exception.message,
             stackTrace: this.getStackTrace(exception)
         }
