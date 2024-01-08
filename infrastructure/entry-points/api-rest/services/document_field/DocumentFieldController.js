@@ -3,8 +3,10 @@ import { responseOk, responseCreated, responseNoContent } from "../../handlers/R
 
 export default class DocumentFieldController {
 
-    constructor(documentFieldUsecase) {
+    constructor(documentFieldUsecase, createManyDocumentFieldUsecase, updateManyDocumentFieldUsecase) {
         this.documentFieldUsecase = documentFieldUsecase;
+        this.createManyDocumentFieldUsecase = createManyDocumentFieldUsecase;
+        this.updateManyDocumentFieldUsecase = updateManyDocumentFieldUsecase;
     }
 
     async list(request, response, next) {
@@ -21,8 +23,15 @@ export default class DocumentFieldController {
 
     async createMany(request, response, next) {
         const documentFieldsList = request.body.map(body => new DocumentField(body));
-        return this.documentFieldUsecase.createMany(documentFieldsList)
+        return this.createManyDocumentFieldUsecase.execute(documentFieldsList)
             .then(list => responseCreated(list, response))
+            .catch(exception => next(exception));
+    }
+
+    async updateMany(request, response, next) {
+        const documentFieldsList = request.body.map(body => new DocumentField(body));
+        return this.updateManyDocumentFieldUsecase.execute(documentFieldsList)
+            .then(list => responseOk(list, response))
             .catch(exception => next(exception));
     }
 

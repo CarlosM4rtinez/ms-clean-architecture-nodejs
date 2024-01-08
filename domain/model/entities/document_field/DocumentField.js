@@ -26,4 +26,8 @@ export default class DocumentField {
         checkAndThrowBusinessException(isEmpty(this.order), DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_003);
     }
 
+    checkRequiredId() {
+        checkAndThrowBusinessException(isNaN(this.id), DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_006);
+    }
+
 }

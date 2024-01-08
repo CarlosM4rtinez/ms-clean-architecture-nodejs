@@ -18,7 +18,7 @@ function getDataFromException(exception) {
         case TechnicalException:
             return { error: buildErrorDTO(exception), status: HttpStatusCode.INTERNAL_SERVER_ERROR }
         case BusinessException:
-            return { error: buildErrorDTO(exception), status: HttpStatusCode.CONFLICT }
+            return { error: buildBusinessErrorDTO(exception), status: HttpStatusCode.CONFLICT }
         default:
             return { error: buildDefaultErrorDTO(exception), status: HttpStatusCode.INTERNAL_SERVER_ERROR }
     }
@@ -26,6 +26,12 @@ function getDataFromException(exception) {
 
 function buildErrorDTO(exception) {
     return new ErrorDTO(exception.getCode(), exception.getDomainMessage(), exception.message);
+}
+
+function buildBusinessErrorDTO(exception) {
+    const message = `${exception.message}${exception.message.endsWith('.') ? "" : "."}`;
+    const detail = exception.getDetail() ? `${message} Detail: ${exception.getDetail()}` : exception.message;
+    return new ErrorDTO(exception.getCode(), exception.getDomainMessage(), detail);
 }
 
 function buildDefaultErrorDTO(exception) {

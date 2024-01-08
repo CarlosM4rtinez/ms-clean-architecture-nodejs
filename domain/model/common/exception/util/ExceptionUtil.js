@@ -1,17 +1,17 @@
 import BusinessException from "../BusinessException.js";
 import TechnicalException from "../TechnicalException.js";
 
-function throwBusinessException(businessMessage) {
-    throw new BusinessException(businessMessage);
+function throwBusinessException(businessMessage, detail) {
+    throw new BusinessException(businessMessage, detail);
 }
 
 function throwTechnicalException(technicalMessage, exception) {
     throw new TechnicalException(technicalMessage, exception);
 }
 
-function checkAndThrowBusinessException(condition, businessMessage) {
+function checkAndThrowBusinessException(condition, businessMessage, detail = undefined) {
     if (condition) {
-        throwBusinessException(businessMessage);
+        throwBusinessException(businessMessage, detail);
     }
 }
 

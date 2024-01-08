@@ -19,7 +19,7 @@ export default class Services {
     }
 
     getPathService(service) {
-        const domain = service.replace(/Services?$/, '').toLowerCase();
+        const domain = service.replace(/Services?$/, '');
         const pluralDomain = domain.endsWith('s') ? domain : domain + 's';
         const domainKebabCase = pluralDomain.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`);
         return `/api/v1/${domainKebabCase}`;

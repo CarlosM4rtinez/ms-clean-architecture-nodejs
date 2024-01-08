@@ -29,6 +29,12 @@ export default class DocumentFieldPort {
             .catch(exception => exceptionHandler(DocumentFieldTechnicalMessage.MST_DOCUMENT_FIELD_001, exception));
     }
 
+    async update(documentField) {
+        return await this.dbConnection.documentField.update({ where: { id: documentField.id }, data: documentField })
+            .then(result => result)
+            .catch(exception => exceptionHandler(DocumentFieldTechnicalMessage.MST_DOCUMENT_FIELD_001, exception));
+    }
+
     async deleteById(documentFileId) {
         return await this.dbConnection.documentField
             .delete({ where: { id: documentFileId } })

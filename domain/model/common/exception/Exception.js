@@ -1,17 +1,22 @@
 export default class Exception extends Error {
 
-    constructor (exception, code, domainMessage){
+    constructor(exception, code, domainMessage, detail = undefined) {
         super(exception);
         this.code = code;
         this.domainMessage = domainMessage;
+        this.detail = detail;
     }
 
-    getCode(){
+    getCode() {
         return this.code;
     }
 
-    getDomainMessage(){
+    getDomainMessage() {
         return this.domainMessage;
+    }
+
+    getDetail() {
+        return this.detail;
     }
 
 }

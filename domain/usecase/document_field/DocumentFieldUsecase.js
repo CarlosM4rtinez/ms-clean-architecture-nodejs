@@ -10,41 +10,6 @@ export default class DocumentFieldUsecase {
         this.fieldPort = fieldPort;
     }
 
-    async createMany(documentFieldList) {
-        this.checkRequiredPropertiesInDocumentFieldList(documentFieldList);
-        await this.checkExistsDocumentAndField(documentFieldList);
-        const documentFieldToRegister = await this.removeExistsDocumentFields(documentFieldList);
-        return await this.documentFieldPort.createMany(documentFieldToRegister);
-    }
-
-    async removeExistsDocumentFields(documentFieldList) {
-        const elementsNotCreated = [];
-        for (const documentField of documentFieldList) {
-            const documentFieldFound = await this.documentFieldPort.findByDocumentAndField(documentField.document, documentField.field);
-            if (documentFieldFound === null) {
-                elementsNotCreated.push(documentField);
-            }
-        }
-        return elementsNotCreated;
-    }
-
-    checkRequiredPropertiesInDocumentFieldList(documentFieldList) {
-        for (const documentField of documentFieldList) {
-            documentField.checkRequiredProperties();
-        }
-    }
-
-    async checkExistsDocumentAndField(documentFieldList) {
-        for (const documentField of documentFieldList) {
-            const [document, field] = await Promise.all([
-                this.documentPort.findByTechnicalName(documentField.document),
-                this.fieldPort.findByTechnicalName(documentField.field)
-            ]);
-            checkAndThrowBusinessException(!document, DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_004);
-            checkAndThrowBusinessException(!field, DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_005);
-        }
-    }
-
     async findByDocumentAndField(documentTechnicalName, fieldTechnicalName) {
         checkAndThrowBusinessException(!documentTechnicalName, DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_000);
         checkAndThrowBusinessException(!fieldTechnicalName, DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_001);
