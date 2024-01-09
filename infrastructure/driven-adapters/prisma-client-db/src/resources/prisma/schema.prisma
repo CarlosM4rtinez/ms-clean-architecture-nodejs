@@ -58,11 +58,11 @@ model Document {
 }
 
 model AgreementDocument {
-    id        BigInt    @id @default(autoincrement())
-    agreement Agreement @relation(fields: [convenio], references: [numero])
-    convenio  String    @db.VarChar(255)
-    document  Document  @relation(fields: [documento], references: [technicalName])
-    documento String    @db.VarChar(255)
+    id                    BigInt    @id @default(autoincrement())
+    agreement             Agreement @relation(fields: [agreementNumber], references: [numero])
+    agreementNumber       String    @map("convenio") @db.VarChar(255)
+    document              Document  @relation(fields: [documentTechnicalName], references: [technicalName])
+    documentTechnicalName String    @map("documento") @db.VarChar(255)
 
     @@map("documentos_convenio")
 }

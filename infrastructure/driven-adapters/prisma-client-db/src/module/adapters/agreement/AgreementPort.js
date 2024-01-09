@@ -81,4 +81,11 @@ export default class AgreementPort {
             .catch(exception => exceptionHandler(TechnicalMessage.MST001, exception));
     }
 
+    async findByAgreementNumbersList(agreementNumbersList) {
+        return await this.dbConnection.agreement
+            .findMany({ where: { numero: { in: agreementNumbersList } } })
+            .then(result => listToDomain(result))
+            .catch(exception => exceptionHandler(TechnicalMessage.MST001, exception));
+    }
+
 }

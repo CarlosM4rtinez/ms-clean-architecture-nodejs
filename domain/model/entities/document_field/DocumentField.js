@@ -1,6 +1,7 @@
 import { DocumentFieldBusinessMessage } from "./message/DocumentFieldBusinessMessage.js";
 import { checkAndThrowBusinessException } from "../../common/exception/util/ExceptionUtil.js";
 import { isEmpty } from "../../common/utilities/ValidatorUtil.js";
+
 export default class DocumentField {
 
     constructor(data) {

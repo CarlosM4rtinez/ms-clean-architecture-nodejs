@@ -1,5 +1,6 @@
-import { BusinessMessage } from "../../model/common/exception/message/BusinessMessage.js";
+import { AgreementDocumentBusinessMessage as BusinessMessage } from "../../model/entities/agreement_document/message/AgreementDocumentBusinessMessage.js";
 import { checkAndThrowBusinessException } from "../../model/common/exception/util/ExceptionUtil.js";
+import { listIsEmpty } from "../../model/common/utilities/ValidatorUtil.js";
 
 export default class AgreementDocumentUsecase {
 
@@ -9,52 +10,69 @@ export default class AgreementDocumentUsecase {
         this.documentPort = documentPort;
     }
 
-    async create(newAgreementDocument) {
-        const checkConditions = isNaN(newAgreementDocument.agreementId) || isNaN(newAgreementDocument.documentId);
-        checkAndThrowBusinessException(checkConditions, BusinessMessage.MSB005);
-        return Promise.all([
-            this.agreementPort.findById(newAgreementDocument.agreementId),
-            this.documentPort.findById(newAgreementDocument.documentId)
-        ]).then(results => {
-            checkAndThrowBusinessException(!results[0] || !results[1], BusinessMessage.MSB006);
-            return this.agreementDocumentPort.create(newAgreementDocument);
-        });
-    }
-
     async list() {
         return this.agreementDocumentPort.list()
             .then(agreementDocuments => {
-                checkAndThrowBusinessException(!agreementDocuments, BusinessMessage.MSB001);
+                checkAndThrowBusinessException(!agreementDocuments, BusinessMessage.MSB_AGREEMENT_DOCUMENT_000);
                 return agreementDocuments;
             });
     }
 
-    async findById(id) {
-        checkAndThrowBusinessException(isNaN(id), BusinessMessage.MSB005);
-        return this.agreementDocumentPort.findById(id)
-            .then(agreementDocument => {
-                checkAndThrowBusinessException(!agreementDocument, BusinessMessage.MSB001);
-                return agreementDocument;
+    async listByAgreement(agreementNumber) {
+        checkAndThrowBusinessException(isNaN(agreementNumber), BusinessMessage.MSB_AGREEMENT_DOCUMENT_001);
+        return this.agreementDocumentPort.listByAgreement(agreementNumber)
+            .then(list => {
+                checkAndThrowBusinessException(listIsEmpty(list), BusinessMessage.MSB_AGREEMENT_DOCUMENT_002);
+                return list;
             });
     }
 
-    async updateById(agreementDocumentToUpdate) {
-        const checkConditions = isNaN(agreementDocumentToUpdate.agreementId) || isNaN(agreementDocumentToUpdate.documentId) || isNaN(agreementDocumentToUpdate.id);
-        checkAndThrowBusinessException(checkConditions, BusinessMessage.MSB005);
-        return this.agreementDocumentPort.findById(agreementDocumentToUpdate.id)
+    async deleteById(agreementDocumentId) {
+        checkAndThrowBusinessException(isNaN(agreementDocumentId), BusinessMessage.MSB_AGREEMENT_DOCUMENT_007);
+        return this.agreementDocumentPort.findById(agreementDocumentId)
             .then(agreementDocument => {
-                checkAndThrowBusinessException(!agreementDocument, BusinessMessage.MSB002);
-                return this.agreementDocumentPort.updateById(agreementDocumentToUpdate);
+                checkAndThrowBusinessException(!agreementDocument, BusinessMessage.MSB_AGREEMENT_DOCUMENT_008, agreementDocumentId);
+                return this.agreementDocumentPort.deleteById(agreementDocumentId);
             })
     }
 
-    async deleteById(id) {
-        checkAndThrowBusinessException(isNaN(id), BusinessMessage.MSB005);
-        return this.agreementDocumentPort.findById(id)
-            .then(agreementDocument => {
-                checkAndThrowBusinessException(!agreementDocument, BusinessMessage.MSB004);
-                return this.agreementDocumentPort.deleteById(id);
-            })
+    async deleteAllAgreementDocumentsByAgreement(agreementNumber) {
+        checkAndThrowBusinessException(isNaN(agreementNumber), BusinessMessage.MSB_AGREEMENT_DOCUMENT_001);
+        return this.agreementDocumentPort.deleteAllAgreementDocumentsByAgreement(agreementNumber);
+    }
+
+    async createMany(agreementDocuments) {
+        agreementDocuments.forEach(agreementDocument => {
+            agreementDocument.checkRequiredProperties();
+        });
+        await Promise.all([this.checkDocumentsExists(agreementDocuments), this.checkAgreementsExists(agreementDocuments)])
+        const agreementDocumentsToRegister = await this.removeExistingAgreementDocuments(agreementDocuments);
+        checkAndThrowBusinessException(listIsEmpty(agreementDocumentsToRegister), BusinessMessage.MSB_AGREEMENT_DOCUMENT_006);
+        return await this.agreementDocumentPort.createMany(agreementDocumentsToRegister);
+    }
+
+    async checkDocumentsExists(agreementDocuments) {
+        const documentList = agreementDocuments.map(agreementDocument => agreementDocument.documentTechnicalName);
+        const documentsExists = await this.documentPort.findByTechnicalNames(documentList);
+        documentList.forEach(document => {
+            const condition = !documentsExists.some(documentExisting => documentExisting.technicalName === document);
+            checkAndThrowBusinessException(condition, BusinessMessage.MSB_AGREEMENT_DOCUMENT_004, document);
+        });
+    }
+
+    async checkAgreementsExists(agreementDocuments) {
+        const agreementNumbersList = agreementDocuments.map(agreementDocument => agreementDocument.agreementNumber);
+        const agreementsExists = await this.agreementPort.findByAgreementNumbersList(agreementNumbersList);
+        agreementNumbersList.forEach(agreementNumber => {
+            const condition = !agreementsExists.some(agreementExisting => agreementExisting.number === agreementNumber);
+            checkAndThrowBusinessException(condition, BusinessMessage.MSB_AGREEMENT_DOCUMENT_005, agreementNumber);
+        });
+    }
+
+    async removeExistingAgreementDocuments(list) {
+        const existing = await this.agreementDocumentPort.findByListAgreementDocument(list);
+        return list.filter(({ agreementNumber, documentTechnicalName }) =>
+            !existing.some(e => e.agreementNumber === agreementNumber && e.documentTechnicalName === documentTechnicalName));
     }
 
 }
