@@ -1,4 +1,4 @@
-import { DocumentFieldBusinessMessage } from "../../model/entities/document_field/message/DocumentFieldBusinessMessage.js";
+import { DocumentFieldBusinessMessage as BusinessMessage } from "../../model/entities/document_field/message/DocumentFieldBusinessMessage.js";
 import { checkAndThrowBusinessException } from "../../model/common/exception/util/ExceptionUtil.js";
 import { isEmpty } from "../../model/common/utilities/ValidatorUtil.js";
 
@@ -12,51 +12,54 @@ export default class UpdateManyDocumentFieldUsecase {
 
     async execute(documentFieldList) {
         this.checkRequiredPropertiesInDocumentFieldList(documentFieldList);
-        await this.checkDocumentsExists(documentFieldList);
-        await this.checkFieldsExists(documentFieldList);
-        const listMatchedDocumentsFields = await this.checkDocumentFieldExists(documentFieldList);
-        return await this.updateManyDocumentFields(listMatchedDocumentsFields);
+        await Promise.all([
+            this.checkDocumentsExists(documentFieldList),
+            this.checkFieldsExists(documentFieldList),
+            this.checkDocumentFieldExists(documentFieldList)
+        ])
+        return await this.updateManyDocumentFields(documentFieldList);
     }
 
     checkRequiredPropertiesInDocumentFieldList(documentFieldList) {
-        for (const documentField of documentFieldList) {
+        documentFieldList.forEach(documentField => {
             documentField.checkRequiredId();
-        }
+        });
     }
 
     async checkDocumentsExists(documentFieldList) {
-        const promises = documentFieldList
+        const documentList = documentFieldList
             .filter(documentField => !isEmpty(documentField.document))
-            .map(async documentField => {
-                const document = await this.documentPort.findByTechnicalName(documentField.document);
-                checkAndThrowBusinessException(!document, DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_004, documentField.document);
-            });
-        await Promise.all(promises);
+            .map(documentField => documentField.document);
+        const documentsExists = await this.documentPort.findByTechnicalNames(documentList);
+        documentList.forEach(document => {
+            const condition = !documentsExists.some(documentExisting => documentExisting.technicalName === document);
+            checkAndThrowBusinessException(condition, BusinessMessage.MSB_DOCUMENT_FIELD_004, document);
+        });
     }
 
     async checkFieldsExists(documentFieldList) {
-        const promises = documentFieldList
+        const fieldList = documentFieldList
             .filter(documentField => !isEmpty(documentField.field))
-            .map(async documentField => {
-                const field = await this.fieldPort.findByTechnicalName(documentField.field);
-                checkAndThrowBusinessException(!field, DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_005, documentField.field);
-            });
-        await Promise.all(promises);
+            .map(documentField => documentField.field);
+        const fieldsExists = await this.fieldPort.findByTechnicalNames(fieldList);
+        fieldList.forEach(field => {
+            const condition = !fieldsExists.some(fieldExisting => fieldExisting.technicalName === field);
+            checkAndThrowBusinessException(condition, BusinessMessage.MSB_DOCUMENT_FIELD_005, field);
+        });
     }
 
     async checkDocumentFieldExists(documentFieldList) {
-        const listMatchedDocumentsFields = [];
-        for (const documentField of documentFieldList) {
-            const documentFieldFound = await this.documentFieldPort.findById(documentField.id);
-            checkAndThrowBusinessException(!documentFieldFound, DocumentFieldBusinessMessage.MSB_DOCUMENT_FIELD_007, documentField.id);
-            listMatchedDocumentsFields.push({ current: documentFieldFound, upgrade: documentField });
-        }
-        return listMatchedDocumentsFields;
+        const listIdentifiers = documentFieldList.map(documentField => documentField.id);
+        const existing = await this.documentFieldPort.findByListIdentifiers(listIdentifiers);
+        documentFieldList.forEach(documentField => {
+            const condition = !existing.some(e => e.id == documentField.id);
+            checkAndThrowBusinessException(condition, BusinessMessage.MSB_DOCUMENT_FIELD_007, documentField.id);
+        });
     }
 
-    async updateManyDocumentFields(matchedDocumentFieldList) {
-        const promises = matchedDocumentFieldList.map(async matchedDocumentField => {
-            return await this.documentFieldPort.update(matchedDocumentField.upgrade);
+    async updateManyDocumentFields(documentFieldList) {
+        const promises = documentFieldList.map(async documentField => {
+            return await this.documentFieldPort.update(documentField);
         });
         return await Promise.all(promises);
     }

@@ -30,5 +30,9 @@ export const DocumentFieldBusinessMessage = {
     MSB_DOCUMENT_FIELD_007: {
         code: "MSB_DOCUMENT_FIELD_007",
         message: "No record was found with the identifier provided."
+    },
+    MSB_DOCUMENT_FIELD_008: {
+        code: "MSB_DOCUMENT_FIELD_008",
+        message: "Are already registered."
     }
 }

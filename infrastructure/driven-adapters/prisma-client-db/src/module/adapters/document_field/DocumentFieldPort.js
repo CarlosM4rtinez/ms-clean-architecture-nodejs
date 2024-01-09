@@ -53,4 +53,23 @@ export default class DocumentFieldPort {
             .then(result => (result) ? dataToDomain(result) : result)
             .catch(exception => exceptionHandler(DocumentFieldTechnicalMessage.MST_DOCUMENT_FIELD_000, exception));
     }
+
+    async findByListDocumentAndField(listDocumentAndField) {
+        return await this.dbConnection.documentField
+            .findMany({
+                where: {
+                    OR: listDocumentAndField.map(({ document, field }) => ({ document, field }))
+                }
+            })
+            .then(result => listToDomain(result))
+            .catch(exception => exceptionHandler(DocumentFieldTechnicalMessage.MST_DOCUMENT_FIELD_000, exception));
+    }
+
+    async findByListIdentifiers(listIdentifiers) {
+        return await this.dbConnection.documentField
+            .findMany({ where: { id: { in: listIdentifiers } } })
+            .then(result => listToDomain(result))
+            .catch(exception => exceptionHandler(DocumentFieldTechnicalMessage.MST_DOCUMENT_FIELD_000, exception));
+    }
+
 }

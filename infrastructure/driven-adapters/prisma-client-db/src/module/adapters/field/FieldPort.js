@@ -74,4 +74,11 @@ export default class FieldPort {
             .catch(exception => exceptionHandler(TechnicalMessage.MST005, exception));
     }
 
+    async findByTechnicalNames(listTechnicalNames) {
+        return await this.dbConnection.field
+            .findMany({ where: { technicalName: { in: listTechnicalNames } } })
+            .then(result => listToDomain(result))
+            .catch(exception => exceptionHandler(TechnicalMessage.MST001, exception));
+    }
+
 }
