@@ -1,5 +1,5 @@
 import { responseCreated, responseOk, responseNoContent } from "../../handlers/ResponseHandler.js";
-import Version from "../../../../../domain/model/entities/version/Version.js";
+import Version from "../../../../../../../domain/model/entities/version/Version.js";
 
 export default class VersionController {
 

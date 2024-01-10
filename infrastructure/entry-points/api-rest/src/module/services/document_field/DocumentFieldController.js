@@ -1,4 +1,4 @@
-import DocumentField from "../../../../../domain/model/entities/document_field/DocumentField.js";
+import DocumentField from "../../../../../../../domain/model/entities/document_field/DocumentField.js";
 import { responseOk, responseCreated, responseNoContent } from "../../handlers/ResponseHandler.js"
 
 export default class DocumentFieldController {

@@ -1,5 +1,5 @@
 import { responseCreated, responseOk, responseNoContent } from "../../handlers/ResponseHandler.js";
-import Field from "../../../../../domain/model/entities/field/Field.js";
+import Field from "../../../../../../../domain/model/entities/field/Field.js";
 
 export default class FieldController {
 

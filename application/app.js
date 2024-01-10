@@ -1,7 +1,7 @@
-import Services from "../infrastructure/entry-points/api-rest/services/Services.js"
+import Services from "../infrastructure/entry-points/api-rest/src/module/services/Services.js"
 import express from "express";
 import { configureApp, configureHealthService, startServer } from "./config/AppConfig.js";
-import exceptionHandler from "../infrastructure/entry-points/api-rest/handlers/ExceptionHandler.js"
+import exceptionHandler from "../infrastructure/entry-points/api-rest/src/module/handlers/ExceptionHandler.js"
 import DependencyContainer from "./config/DependencyContainer.js";
 import { configureSwaggerApp } from "./config/SwaggerConfig.js";
 

@@ -1,5 +1,5 @@
 import { responseCreated, responseOk, responseNoContent } from "../../handlers/ResponseHandler.js";
-import Cache from "../../../../../domain/model/entities/cache/Cache.js";
+import Cache from "../../../../../../../domain/model/entities/cache/Cache.js";
 
 export default class CacheController {
 

@@ -8,6 +8,7 @@ export default class AgreementUsecase {
     }
 
     async create(newAgreement) {
+        checkAndThrowBusinessException(isNaN(agreementId), BusinessMessage.MSB005);
         return this.agreementPort.findByNumber(newAgreement.number)
             .then(agreement => {
                 checkAndThrowBusinessException(agreement, BusinessMessage.MSB003);

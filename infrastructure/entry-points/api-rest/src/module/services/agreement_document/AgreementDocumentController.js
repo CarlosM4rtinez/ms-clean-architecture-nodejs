@@ -1,4 +1,4 @@
-import AgreementDocument from "../../../../../domain/model/entities/agreement_document/AgreementDocument.js";
+import AgreementDocument from "../../../../../../../domain/model/entities/agreement_document/AgreementDocument.js";
 import { responseOk, responseCreated, responseNoContent } from "../../handlers/ResponseHandler.js"
 
 export default class AgreementDocumentController {

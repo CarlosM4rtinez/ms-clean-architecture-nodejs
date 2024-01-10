@@ -1,4 +1,4 @@
-import Geolocation from "../../../../../domain/model/entities/geolocation/Geolocation.js";
+import Geolocation from "../../../../../../../domain/model/entities/geolocation/Geolocation.js";
 import { responseOk, responseCreated } from "../../handlers/ResponseHandler.js"
 
 export default class GeolocationController {

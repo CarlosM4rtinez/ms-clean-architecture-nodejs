@@ -1,10 +1,10 @@
 import HttpStatusCode from "http-status-codes"
-import TechnicalException from "../../../../domain/model/common/exception/TechnicalException.js";
-import BusinessException from "../../../../domain/model/common/exception/BusinessException.js";
+import TechnicalException from "../../../../../../domain/model/common/exception/TechnicalException.js";
+import BusinessException from "../../../../../../domain/model/common/exception/BusinessException.js";
 import ErrorDTO from "../commons/dto/ErrorDTO.js";
-import { TechnicalMessage } from "../../../../domain/model/common/exception/message/TechnicalMessage.js"
-import logger from "../../../helpers/logger/src/Logger.js";
-import LogData from "../../../helpers/logger/src/LogData.js";
+import { TechnicalMessage } from "../../../../../../domain/model/common/exception/message/TechnicalMessage.js"
+import logger from "../../../../../helpers/logger/src/Logger.js";
+import LogData from "../../../../../helpers/logger/src/LogData.js";
 
 export default function exceptionHandler(exception, request, response, next) {
     const data = getDataFromException(exception);

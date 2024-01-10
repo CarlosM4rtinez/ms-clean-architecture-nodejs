@@ -1,4 +1,4 @@
-import logger from "../../../../helpers/logger/src/Logger.js";
+import logger from "../../../../../../helpers/logger/src/Logger.js";
 
 export default class RoutePrinterUtil {
 
