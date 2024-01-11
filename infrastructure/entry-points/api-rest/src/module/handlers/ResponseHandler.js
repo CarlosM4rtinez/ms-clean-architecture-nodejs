@@ -24,8 +24,14 @@ function responseAccepted(body, response) {
         .json(body);
 }
 
+function responseBadRequest(body, response) {
+    return response
+        .status(HttpStatusCode.BAD_REQUEST)
+        .json(body);
+}
+
 function responseNoContent(response) {
     return response.sendStatus(HttpStatusCode.NO_CONTENT);
 }
 
-export { responseOk, responseCreated, responseNotFound, responseAccepted, responseNoContent }; 
+export { responseOk, responseCreated, responseNotFound, responseAccepted, responseNoContent, responseBadRequest }; 

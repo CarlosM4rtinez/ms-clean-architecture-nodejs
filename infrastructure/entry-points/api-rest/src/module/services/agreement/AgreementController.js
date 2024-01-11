@@ -1,4 +1,5 @@
 import { responseCreated, responseOk, responseNoContent } from "../../handlers/ResponseHandler.js"
+import Agreement from "../../../../../../../domain/model/entities/agreement/Agreement.js"
 
 export default class AgreementController {
 
@@ -58,6 +59,13 @@ export default class AgreementController {
     async getAgreementWithDocuments(request, response, next) {
         return this.agreementUsecase.getAgreementWithDocuments(request.params.agreementNumber)
             .then(agreement => responseOk(agreement, response))
+            .catch(exception => next(exception));
+    }
+
+    async parameterization(request, response, next) {
+        const newAgreement = new Agreement(request.body);
+        return this.agreementUsecase.create(newAgreement)
+            .then(agreement => responseCreated(agreement, response))
             .catch(exception => next(exception));
     }
 

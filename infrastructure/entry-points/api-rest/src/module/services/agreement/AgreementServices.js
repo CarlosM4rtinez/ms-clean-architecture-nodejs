@@ -1,8 +1,9 @@
 export default class AgreementServices {
 
-    constructor(express, agreementController) {
+    constructor(express, agreementController, schemaValidator) {
         this.router = express.Router();
         this.controller = agreementController;
+        this.schemaValidator = schemaValidator;
         this.setupServices();
     }
 
@@ -26,6 +27,7 @@ export default class AgreementServices {
         this.router.delete("/:agreementId", this.controller.deleteById.bind(this.controller));
         this.router.delete("/", this.controller.deleteByNumber.bind(this.controller));
         this.router.get("/:agreementNumber/documents", this.controller.getAgreementWithDocuments.bind(this.controller));
+        this.router.post("/parameterization", this.schemaValidator.validate("AgreementParameterizationRequest"), this.controller.parameterization.bind(this.controller));
     }
 
     getServices() {

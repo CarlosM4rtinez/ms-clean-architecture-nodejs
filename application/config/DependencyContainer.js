@@ -13,6 +13,7 @@ export default class DependencyContainer {
         return [
             ['infrastructure/driven-adapters/*/src/module/adapters/*/*Port.js', Lifetime.TRANSIENT],
             ['domain/usecase/*/*Usecase.js', Lifetime.TRANSIENT],
+            ['infrastructure/entry-points/api-rest/src/module/middlewares/*', Lifetime.TRANSIENT],
             ['infrastructure/entry-points/api-rest/src/module/services/*/*.js', Lifetime.SCOPED]
         ];
     }

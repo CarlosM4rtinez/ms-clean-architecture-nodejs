@@ -23,4 +23,12 @@ export const TechnicalMessage = {
         code: "MST005",
         message: "An error occurred while deleting information."
     },
+    MST006: {
+        code: "MST006",
+        message: "Provided request data is not valid."
+    },
+    MST007: {
+        code: "MST007",
+        message: "The scheme to validate the request does not exist."
+    },
 }
