@@ -28,8 +28,7 @@ export default class SchemaValidator {
         return (request, response, next) => {
             const validate = this.schemas[schemaName]
             if (!validate) throwTechnicalException(TechnicalMessage.MST007, `${TechnicalMessage.MST007.message} Schema: ${schemaName}`);
-            const result = validate(request.body);
-            if (!result) throwTechnicalException(TechnicalMessage.MST006, this.getMessageWithErrors(validate))
+            if (!validate(request.body)) throwTechnicalException(TechnicalMessage.MST006, this.getMessageWithErrors(validate))
             next();
         }
     }
